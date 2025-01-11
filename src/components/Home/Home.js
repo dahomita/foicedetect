@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import homeLogo from "../../Assets/home-main.svg";
+import homeLogo from "../../Assets/Image (1).png";
+import homeLogo1 from "../../Assets/Image-1.png";
 import Particle from "../Particle";
-import Home2 from "./Home2";
 import Type from "./Type";
 
 function Home() {
@@ -14,15 +14,11 @@ function Home() {
           <Row>
             <Col md={7} className="home-header">
               <h1 style={{ paddingBottom: 15 }} className="heading">
-                Hi There!{" "}
-                <span className="wave" role="img" aria-labelledby="wave">
-                  👋🏻
-                </span>
+                "Unmask The Truth in Voices"{" "}
               </h1>
 
               <h1 className="heading-name">
-                I'M
-                <strong className="main-name"> SOUMYAJIT BEHERA</strong>
+                Empowered by advanced AI technology, <strong className="main-name"> FOICE DETECT</strong> helps you identify synthetic or altered voices in real time.
               </h1>
 
               <div style={{ padding: 50, textAlign: "left" }}>
@@ -30,18 +26,21 @@ function Home() {
               </div>
             </Col>
 
-            <Col md={5} style={{ paddingBottom: 20 }}>
+            <Col md={5} style={{ paddingBottom: 20 }} className="logo-container">
               <img
                 src={homeLogo}
                 alt="home pic"
-                className="img-fluid"
-                style={{ maxHeight: "450px" }}
+                className="homeLogo"
+              />
+              <img
+                src={homeLogo1}
+                alt="home pic"
+                className="homeLogo1"
               />
             </Col>
           </Row>
         </Container>
       </Container>
-      <Home2 />
     </section>
   );
 }
