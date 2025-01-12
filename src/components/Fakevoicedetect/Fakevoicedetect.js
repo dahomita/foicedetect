@@ -50,7 +50,7 @@ function About() {
       
       // Check for expected response structure
       if (data.result) {
-        setResult(`Detected as: ${data.result}${data.confidence ? ` (Confidence: ${data.confidence.toFixed(2)}%)` : ''}`);
+        setResult(`Detected as: ${data.result}${data.confidence ? ` (Confidence: ${data.confidence.toFixed(2)}%)` : ''} \nUser Guidance: ${data.ai_analysis}`);
       } else {
         throw new Error("Unexpected response format");
       }
