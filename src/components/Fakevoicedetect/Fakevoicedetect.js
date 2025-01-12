@@ -61,7 +61,7 @@ function About() {
               ? ` (Confidence: ${data.confidence.toFixed(2)}%)`
               : "Confidence currently not available for display."
           }`
-        );
+        );        
         setAiAnalysis(data.ai_analysis);
       } else {
         throw new Error("Unexpected response format");
