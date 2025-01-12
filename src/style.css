@@ -536,10 +536,6 @@ button:focus {
 /* --------- */
 /* Fakevoicedetect */
 /* --------- */
-.upload-button {
-  position: relative;
-  z-index: 1000;
-}
 
 
 .foicedetect-section {
