@@ -231,7 +231,7 @@ button:focus {
 /* Adjust the z-index to make homeLogo1 appear above homeLogo */
 .homeLogo1 {
   z-index: 1;
-  top: 100px;
+  top: 90px;
   
 }
 
@@ -396,7 +396,7 @@ button:focus {
 /* Footer */
 /* --------- */
 .footer {
-  background-color: rgb(10, 4, 22);
+  background-color: #B7E9FF;
   bottom: 0 !important;
   padding-top: 10px !important;
   padding-bottom: 8px !important ;
@@ -422,7 +422,7 @@ button:focus {
 
 .footer h3 {
   font-size: 1em;
-  color: white !important;
+  color: #171B1D !important;
   margin-top: 0.5em !important;
   margin-bottom: 0.5em !important;
 }
