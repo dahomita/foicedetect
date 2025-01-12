@@ -433,7 +433,7 @@ button:focus {
 }
 
 .blockquote-footer {
-  color: #a588c0 !important;
+  color: #373E3D !important;
 }
 /* --------- */
 /* Projects */
@@ -495,7 +495,7 @@ button:focus {
 .blog-card-view:hover {
   transform: scale(1.02) !important;
   overflow: hidden !important;
-  box-shadow: 0 3px 3px 5px rgba(155, 88, 173, 0.65) !important;
+  box-shadow: 0 3px 3px 5px #171B1D !important;
 }
 
 .card-img-top {
@@ -533,14 +533,37 @@ button:focus {
 }
 
 /* --------- */
-/* About */
+/* Fakevoicedetect */
 /* --------- */
 
-.about-section {
+.foicedetect-section {
+  background-color: #171B1D;
   position: relative !important;
   padding-top: 150px !important;
   padding-bottom: 30px !important;
   background-image: var(--section-background-color) !important;
+}
+
+
+.detect-icon {
+  width: 200px !important;
+  margin-top: -20px;
+  margin-bottom: -50px;
+}
+
+.detect-button {
+  background-color: #B7E9FF !important;
+  border: none !important;
+  font-size: 1.2rem !important;
+  padding: 10px 20px !important;
+  color: black !important;
+  font-family: 'Poppins';
+  cursor: pointer !important;
+  filter: drop-shadow(4px 4px 4px black) !important;
+}
+
+.detect-button:hover {
+  background-color: black !important;
   color: white !important;
 }
 
@@ -559,39 +582,7 @@ button:focus {
   transition: all 0.4s ease 0s !important;
 }
 
-@media (max-width: 767px) {
-  .tech-icons {
-    margin: 10px !important;
-  }
-}
 
-.tech-icons:hover {
-  transform: scale(1.05) !important;
-  overflow: hidden !important;
-  border: 2.2px solid rgba(197, 115, 230, 0.883) !important;
-}
-.tech-icon-images {
-  padding: 20px !important;
-  line-height: 1.6 !important;
-}
-
-.quote-card-view {
-  border: none !important;
-  color: white !important;
-  background-color: transparent !important;
-}
-
-.about-activity {
-  list-style: none !important;
-  text-align: left !important;
-  padding-left: 1px !important;
-}
-
-@media (max-width: 767px) {
-  .about-img {
-    padding-top: 0 !important;
-  }
-}
 /* --------- */
 /* Resume */
 /* --------- */

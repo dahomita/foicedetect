@@ -66,7 +66,7 @@ function NavBar() {
             <Nav.Item>
               <Nav.Link
                 as={Link}
-                to="/about"
+                to="/fakevoicedetect"
                 onClick={() => updateExpanded(false)}
                 style={navLinkStyle}
               >
