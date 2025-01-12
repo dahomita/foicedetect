@@ -610,3 +610,45 @@ button:focus {
 .fork-btn-inner::after {
   display: none !important;
 }
+
+html {
+  --analysis-item-bg: #171B1D; /* Matches the overall dark background */
+  --analysis-item-border: #373E3D; /* Soft, neutral border */
+  --analysis-item-header-bg: #2A4B8D; /* Blue for the header */
+  --analysis-item-header-text: #B7E9FF; /* Light blue text color */
+  --analysis-item-content-text: #D1D5DB; /* Subtle light gray for content */
+  --analysis-item-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.analysisItem {
+  background-color: var(--analysis-item-bg);
+  border: 1px solid var(--analysis-item-border);
+  border-radius: 8px;
+  box-shadow: var(--analysis-item-shadow);
+  padding: 16px;
+  margin: 10px 0;
+  color: var(--analysis-item-content-text);
+  transition: box-shadow 0.2s ease;
+}
+
+.analysisItem:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Slight lift effect on hover */
+}
+
+.analysisItem--header {
+  font-size: 1.3rem; /* Slightly larger header */
+  padding: 12px;
+  background-color: var(--analysis-item-header-bg);
+  border-radius: 6px;
+  color: var(--analysis-item-header-text);
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 12px;
+  text-transform: capitalize;
+}
+
+.analysisItem--content {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--analysis-item-content-text);
+}
