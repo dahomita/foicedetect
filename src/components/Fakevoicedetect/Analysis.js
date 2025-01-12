@@ -4,7 +4,7 @@ import "../../style.css";
 
 const Analysis = (props) => {
   console.log(props.aiAnalysis);
-  const analysis = props.aiAnalysis.split("ENDPARAGRAPHHH!!!");
+  const analysis = props.aiAnalysis.split("ENDPARAGRAPH!!!");
   console.log(analysis);
 
   return (
