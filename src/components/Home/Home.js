@@ -37,6 +37,9 @@ function Home() {
                 src={homeLogo1}
                 alt="home pic"
                 className="homeLogo1"
+
+                style={{ width: "80%", maxHeight: "500px", marginTop: "-20px" }} // Adjust margin to bring logos closer
+
               />
             </Col>
           </Row>
