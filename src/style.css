@@ -433,7 +433,7 @@ button:focus {
 }
 
 .blockquote-footer {
-  color: #a588c0 !important;
+  color: #373E3D !important;
 }
 /* --------- */
 /* Projects */
@@ -495,7 +495,7 @@ button:focus {
 .blog-card-view:hover {
   transform: scale(1.02) !important;
   overflow: hidden !important;
-  box-shadow: 0 3px 3px 5px rgba(155, 88, 173, 0.65) !important;
+  box-shadow: 0 3px 3px 5px #171B1D !important;
 }
 
 .card-img-top {
@@ -536,7 +536,8 @@ button:focus {
 /* Fakevoicedetect */
 /* --------- */
 
-.fakevoicedetect-section {
+.foicedetect-section {
+  background-color: #171B1D;
   position: relative !important;
   padding-top: 150px !important;
   padding-bottom: 30px !important;
@@ -546,7 +547,8 @@ button:focus {
 
 .detect-icon {
   width: 200px !important;
-  filter: drop-shadow(2px 2px 4px white) !important;
+  margin-top: -20px;
+  margin-bottom: -50px;
 }
 
 .detect-button {
@@ -555,8 +557,9 @@ button:focus {
   font-size: 1.2rem !important;
   padding: 10px 20px !important;
   color: black !important;
+  font-family: 'Poppins';
   cursor: pointer !important;
-  filter: drop-shadow(4px 4px 4px white) !important;
+  filter: drop-shadow(4px 4px 4px black) !important;
 }
 
 .detect-button:hover {

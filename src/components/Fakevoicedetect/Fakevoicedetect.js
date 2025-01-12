@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import Particle from "../Particle";
 import "../../style.css";
-import detector from "../../Assets/detector.png";
+import homeLogo1 from "../../Assets/Group 1533 (1).png";
+import homeLogo from "../../Assets/Image.png";
 
 
 
@@ -59,29 +60,31 @@ function About() {
             }}
           >
             
-            <h1 style={{ fontSize: "6rem", paddingTop: "50px" }}>
+            <h1 style={{ fontFamily: 'Poppins',fontSize: "4rem", paddingTop: "50px" }}>
                <strong className="purple">Voice Detection</strong>
             </h1>
+            
 
             <img 
-              src = {detector}
-              alt = "Detector"
+              src = {homeLogo1}
+              alt = "homelogo1"
               className = "detect-icon"
+              style={{ width: "100%"}}
             />
 
             <Form>
               <Form.Group controlId="fileUpload" className="mb-3">
-                <Form.Label style = {{color: "blue"}}>Upload a Recording (e.g., .mp3, .wav)</Form.Label>
+                <Form.Label style = {{fontFamily: 'Poppins', color: "#B7E9FF"}}>Upload a Recording (e.g., .mp3, .wav)</Form.Label>
                 <Form.Control type="file" accept="audio/*" onChange={handleFileChange} />
               </Form.Group>
             </Form>
 
-            <Button className = "detect-button" variant="primary" onClick={handleDetect} disabled={isProcessing}>
+            <Button style = {{fontFamily: 'Poppins', color: "#B7E9FF"}} className = "detect-button" variant="primary" onClick={handleDetect} disabled={isProcessing}>
                 {isProcessing ? "Processing..." : "Detect"}
             </Button>
             {result && (
               <div className="mt-3">
-                <h2>Result: <strong>{result}</strong></h2>
+                <h2 style = {{fontFamily: 'Poppins', color: "#B7E9FF"}}>Result: <strong>{result}</strong></h2>
               </div>
             )}
 
