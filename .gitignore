@@ -31,6 +31,10 @@ Server/config.js
 
 # Python backend
 backend/venv/
+backend/__pycache__/
+backend/foicedetect_backend/foicedetect_backend/__pycache__/
+backend/foicedetect_backend/audio_detection/__pycache__/
+backend/foicedetect_backend/audio_detection/migrations/
 *.pyc
 __pycache__/
 *.sqlite3
@@ -39,6 +43,11 @@ __pycache__/
 *.pkl
 *.h5
 *.pth
+
+# Audio dataset directories
+backend/fake/
+backend/real/
+backend/test/
 
 # IDE and Editor files
 .vscode/
