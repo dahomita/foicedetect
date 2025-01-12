@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Form, Spinner } from "react-bootstrap";
 import Particle from "../Particle";
 import "../../style.css";
 import homeLogo1 from "../../Assets/Group 1533 (1).png";
+
 import homeLogo from "../../Assets/Image.png";
 
 function About() {
@@ -29,6 +30,45 @@ function About() {
       return;
     }
 
+  
+    setIsProcessing(true);
+    setResult(""); // Clear previous results
+  
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+  
+      const response = await fetch("http://localhost:8000/api/detect/", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        // Handle HTTP errors
+        const errorText = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+      }
+  
+      const data = await response.json();
+      
+      // Check for expected response structure
+      if (data.result) {
+        setResult(`Detected as: ${data.result}${data.confidence ? ` (Confidence: ${data.confidence.toFixed(2)}%)` : ''}`);
+      } else {
+        throw new Error("Unexpected response format");
+      }
+    } catch (error) {
+      console.error("Error during detection:", error);
+      
+      // Provide user-friendly error messages
+      if (error.message.includes("Failed to fetch")) {
+        setResult("Unable to connect to the server. Please check your network connection.");
+      } else if (error.message.includes("HTTP error")) {
+        setResult(`Server error: ${error.message}`);
+      } else {
+        setResult("An unexpected error occurred during file detection.");
+      }
+
     setIsProcessing(true);
     try {
       const formData = new FormData();
@@ -44,6 +84,7 @@ function About() {
     } catch (error) {
       console.error("Error during detection:", error);
       setResult("An error occurred while detecting the file.");
+
     } finally {
       setIsProcessing(false);
     }
