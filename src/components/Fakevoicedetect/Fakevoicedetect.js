@@ -79,7 +79,7 @@ function About() {
               </Form.Group>
             </Form>
 
-            <Button style = {{fontFamily: 'Poppins', color: "#B7E9FF"}} className = "detect-button" variant="primary" onClick={handleDetect} disabled={isProcessing}>
+            <Button className = "detect-button" variant="primary" onClick={handleDetect} disabled={isProcessing}>
                 {isProcessing ? "Processing..." : "Detect"}
             </Button>
             {result && (
