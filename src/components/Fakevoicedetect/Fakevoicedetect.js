@@ -4,6 +4,8 @@ import Particle from "../Particle";
 import "../../style.css";
 import homeLogo1 from "../../Assets/Group 1533 (1).png";
 
+import homeLogo from "../../Assets/Image.png";
+
 function About() {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState("");
@@ -27,6 +29,7 @@ function About() {
       alert("Please upload a file before detection.");
       return;
     }
+
   
     setIsProcessing(true);
     setResult(""); // Clear previous results
@@ -65,6 +68,23 @@ function About() {
       } else {
         setResult("An unexpected error occurred during file detection.");
       }
+
+    setIsProcessing(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      setResult(data.result);
+    } catch (error) {
+      console.error("Error during detection:", error);
+      setResult("An error occurred while detecting the file.");
+
     } finally {
       setIsProcessing(false);
     }
