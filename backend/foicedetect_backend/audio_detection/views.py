@@ -6,6 +6,7 @@ from django.core.files.storage import default_storage
 
 # Direct import from the same directory
 from .predict import analyze_audio
+from .text_generate import speech_to_text, generate_analysis
 
 @csrf_exempt
 def detect_audio(request):
@@ -24,29 +25,43 @@ def detect_audio(request):
         os.makedirs(upload_dir, exist_ok=True)
         
         # Save the file
-        file_path = default_storage.save(os.path.join(upload_dir, file.name), file)
         full_path = os.path.join(upload_dir, file.name)
         
         try:
-            # Use your existing prediction function
+            # Save the file using default_storage
+            with default_storage.open(full_path, 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+            
+            # Perform audio analysis
             result = analyze_audio(full_path)
+            
+            # Perform speech-to-text transcription
+            try:
+                speech_text = speech_to_text(full_path)
+            except Exception as transcription_error:
+                speech_text = "Transcription failed: " + str(transcription_error)
+            
+            # Generate detailed analysis
+            try:
+                # Prepare classification result string
+                classification_result = f"The input audio is classified as {result[0]} with {result[1]:.2f}% confidence."
+                
+                # Generate AI-powered analysis
+                ai_analysis = generate_analysis(speech_text, classification_result)
+            except Exception as analysis_error:
+                ai_analysis = "AI analysis generation failed: " + str(analysis_error)
             
             # Clean up the uploaded file
             os.remove(full_path)
             
-            # Return result based on the prediction
-            if isinstance(result, list):
-                return JsonResponse({
-                    'result': result[0],  # 'Genuine' or 'Deepfake'
-                    'confidence': result[1]  # Confidence percentage
-                })
-            elif result in ['Genuine', 'Deepfake']:
-                return JsonResponse({
-                    'result': result,
-                    'confidence': None  # No confidence if not available
-                })
-            else:
-                return JsonResponse({'error': 'Prediction failed'}, status=500)
+            # Return comprehensive result
+            return JsonResponse({
+                'result': result[0],  # 'Genuine' or 'Deepfake'
+                'confidence': result[1],  # Confidence percentage
+                'speech_to_text': speech_text,
+                'ai_analysis': ai_analysis
+            })
         
         except Exception as e:
             # Print full traceback to console for debugging
