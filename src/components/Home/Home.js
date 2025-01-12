@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import homeLogo from "../../Assets/Image (1).png";
-import homeLogo1 from "../../Assets/Image-1.png";
+import homeLogo1 from "../../Assets/Group 1533 (1).png";
 import Particle from "../Particle";
 import Type from "./Type";
 
@@ -37,7 +37,7 @@ function Home() {
                 src={homeLogo1}
                 alt="home pic"
                 className="homeLogo1"
-                style={{ maxHeight: "500px", marginTop: "-10px" }} // Adjust margin to bring logos closer
+                style={{ width: "80%", maxHeight: "500px", marginTop: "-20px" }} // Adjust margin to bring logos closer
               />
             </Col>
           </Row>
