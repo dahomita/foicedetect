@@ -44,6 +44,8 @@ def generate_analysis(speech_to_text_output, classification_result):
     - Outline potential legal protections and resources for victims of attempted scams
 
     Tone should be authoritative, calm, and empowering. Focus on educating the user about potential risks and equipping them with practical defense strategies.
+    Do not make any text bold or italic. Write paragraphs consecutively without any line breaks. Do not add any "\n" between the headline and the paragraph.
+    Separate each enumerated paragraph with "ENDPARAGRAPHHH!!!" 
     """
 
     # Use the OpenAI client to generate a response
