@@ -44,6 +44,7 @@ __pycache__/
 *.pkl
 *.h5
 *.pth
+*.wav
 
 # Audio dataset directories
 backend/fake/
