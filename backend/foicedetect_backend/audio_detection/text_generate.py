@@ -1,15 +1,17 @@
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import assemblyai as aai
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Get the API key from environment variables
-api_key = os.getenv('OPENAI_API_KEY')
+# api_key = os.getenv('OPENAI_API_KEY')
+api_key = os.getenv('NEBIUS_API_KEY')
 
 # Initialize the OpenAI client with the API key
-client = OpenAI(api_key=api_key)
+client = OpenAI(base_url="https://api.studio.nebius.ai/v1/", api_key=api_key)
 
 def generate_analysis(speech_to_text_output, classification_result):
     # Create the prompt by combining the speech-to-text output and the classification result
@@ -44,13 +46,18 @@ def generate_analysis(speech_to_text_output, classification_result):
     - Outline potential legal protections and resources for victims of attempted scams
 
     Tone should be authoritative, calm, and empowering. Focus on educating the user about potential risks and equipping them with practical defense strategies.
-    Do not make any text bold or italic. Write paragraphs consecutively without any line breaks. Do not add any "\n" between the headline and the paragraph.
-    Separate each enumerated paragraph with "ENDPARAGRAPHHH!!!" 
+    Do not make any text bold or italic. Separate each enumerated paragraph with "ENDPARAGRAPH!!!". Add "ENDHEADLINE!!!" after each headline.
+    Follow this format:
+    '
+    1. Detailed Scam Risk Assessment:ENDHEADLINE!!!\n[content goes here]ENDPARAGRAPH!!!\n\n2. Immediate User Recommendations:ENDHEADLINE!!!\n[content goes here]ENDPARAGRAPH!!!...
+    
+    '
     """
 
     # Use the OpenAI client to generate a response
     completion = client.chat.completions.create(
-        model="gpt-4",  # Specify the model, adjust as needed
+        # model="gpt-4",  # Specify the model, adjust as needed
+        model="meta-llama/Meta-Llama-3.1-70B-Instruct",  # Specify the model, adjust as needed
         messages=[ 
             {"role": "system", "content": "You are a cybersecurity expert specializing in social engineering and scam prevention."},
             {"role": "user", "content": prompt}
@@ -77,10 +84,12 @@ def generate_analysis(speech_to_text_output, classification_result):
 #         print(f"An error occurred: {e}")
 
 # Speech-to-Text Function
-def speech_to_text(audio_file_path):
-    audio_file = open(audio_file_path, "rb")
-    transcript = client.audio.transcriptions.create(
-    model="whisper-1", 
-    file=audio_file
-)
+
+def transcribe_audio(audio_file):
+    aai.settings.api_key = os.getenv('ASSEMBLY_API_KEY')
+    transcriber = aai.Transcriber()
+
+    transcript = transcriber.transcribe(audio_file)
+    # transcript = transcriber.transcribe("./my-local-audio-file.wav")
+
     return transcript.text
