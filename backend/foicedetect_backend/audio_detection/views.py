@@ -1,11 +1,11 @@
 import os
-import numpy as np
+import traceback
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 
-# Import the existing prediction logic
-from backend.predict import analyze_audio
+# Direct import from the same directory
+from .predict import analyze_audio
 
 @csrf_exempt
 def detect_audio(request):
@@ -49,9 +49,18 @@ def detect_audio(request):
                 return JsonResponse({'error': 'Prediction failed'}, status=500)
         
         except Exception as e:
+            # Print full traceback to console for debugging
+            print("Full error traceback:")
+            traceback.print_exc()
+            
             # Clean up the file in case of error
             if os.path.exists(full_path):
                 os.remove(full_path)
-            return JsonResponse({'error': str(e)}, status=500)
+            
+            # Return detailed error response
+            return JsonResponse({
+                'error': str(e),
+                'traceback': traceback.format_exc()
+            }, status=500)
     
-    return JsonResponse({'error': 'Invalid request method'}, status=405)
+    return JsonResponse({'error': 'Method not allowed'}, status=405)

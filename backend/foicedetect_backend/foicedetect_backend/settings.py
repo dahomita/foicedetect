@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'rest_framework',
     'audio_detection',
 ]
 
@@ -57,6 +58,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Your React app's URL
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True  # For development only
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -66,10 +70,17 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-# Ensure backend directory is in Python path
-import os
-import sys
-sys.path.append(os.path.abspath(os.path.join(BASE_DIR, '..', 'backend')))
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 ROOT_URLCONF = 'foicedetect_backend.urls'
 
