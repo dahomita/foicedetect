@@ -89,7 +89,11 @@ def transcribe_audio(audio_file):
     aai.settings.api_key = os.getenv('ASSEMBLY_API_KEY')
     transcriber = aai.Transcriber()
 
+    if aai.settings.api_key:
+        print(aai.settings.api_key)
+
     transcript = transcriber.transcribe(audio_file)
     # transcript = transcriber.transcribe("./my-local-audio-file.wav")
 
+    print(transcript.text)
     return transcript.text
