@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import assemblyai as aai
 
 # Load environment variables from .env file
 load_dotenv()
@@ -83,10 +84,16 @@ def generate_analysis(speech_to_text_output, classification_result):
 #         print(f"An error occurred: {e}")
 
 # Speech-to-Text Function
-def speech_to_text(audio_file_path):
-    audio_file = open(audio_file_path, "rb")
-    transcript = client.audio.transcriptions.create(
-        model="whisper-1", 
-        file=audio_file
-    )
+
+def transcribe_audio(audio_file):
+    aai.settings.api_key = os.getenv('ASSEMBLY_API_KEY')
+    transcriber = aai.Transcriber()
+
+    if aai.settings.api_key:
+        print(aai.settings.api_key)
+
+    transcript = transcriber.transcribe(audio_file)
+    # transcript = transcriber.transcribe("./my-local-audio-file.wav")
+
+    print(transcript.text)
     return transcript.text
