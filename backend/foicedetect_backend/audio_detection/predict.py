@@ -1,11 +1,23 @@
 import os
-from train import extract_mfcc_features
+from .train import extract_mfcc_features
 import joblib
 import numpy as np
 
 def analyze_audio(input_audio_path):
-    model_filename = "svm_model.pkl"
-    scaler_filename = "scaler.pkl"
+    # Get the absolute path to the current directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Construct full paths to model files
+    model_filename = os.path.join(current_dir, "svm_model.pkl")
+    scaler_filename = os.path.join(current_dir, "scaler.pkl")
+    
+    # Check if model files exist
+    if not os.path.exists(model_filename):
+        raise FileNotFoundError(f"Model file not found: {model_filename}")
+    if not os.path.exists(scaler_filename):
+        raise FileNotFoundError(f"Scaler file not found: {scaler_filename}")
+
+    # Load model and scaler
     svm_classifier = joblib.load(model_filename)
     scaler = joblib.load(scaler_filename)
 
@@ -31,25 +43,4 @@ def analyze_audio(input_audio_path):
             return ['Deepfake', confidence_percentage]
     else:
         print(f"Error: Unable to process the input audio {input_audio_path}.")
-
-if __name__ == "__main__":
-    # Directory containing the .wav files
-    audio_directory = "C:/Users/khang/AIVoice-Detection-using-SVM/test"
-
-    # Normalize the directory path
-    audio_directory = os.path.normpath(audio_directory)
-    
-    # List all .wav files in the directory
-    wav_files = [f for f in os.listdir(audio_directory) if f.lower().endswith(".wav")]
-
-    if not wav_files:
-        print(f"No .wav files found in directory: {audio_directory}")
-    else:
-        print(f"Found {len(wav_files)} .wav file(s) in directory: {audio_directory}")
-
-        # Analyze each .wav file
-        for wav_file in wav_files:
-            full_path = os.path.join(audio_directory, wav_file)
-            result = analyze_audio(full_path)
-            print(f"File: {wav_file}")
-            print(f"Result: {result}")
+        return None
