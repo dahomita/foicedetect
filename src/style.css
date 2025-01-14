@@ -670,13 +670,14 @@ html {
 .analysisItem--header {
   font-size: 1.3rem; /* Slightly larger header */
   padding: 12px;
-  background-color: var(--analysis-item-header-bg);
+  background-color: #B7E9FF;
   border-radius: 6px;
-  color: var(--analysis-item-header-text);
+  color: #171B1D;
   text-align: center;
   font-weight: 500;
   margin-bottom: 12px;
   text-transform: capitalize;
+  font-family: 'Poppins';
 }
 
 .analysisItem--content {

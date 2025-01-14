@@ -6,7 +6,7 @@ from django.core.files.storage import default_storage
 
 # Direct import from the same directory
 from .predict import analyze_audio
-from .text_generate import speech_to_text, generate_analysis
+from .text_generate import transcribe_audio, generate_analysis
 
 @csrf_exempt
 def detect_audio(request):
@@ -38,7 +38,7 @@ def detect_audio(request):
             
             # Perform speech-to-text transcription
             try:
-                speech_text = speech_to_text(full_path)
+                speech_text = transcribe_audio(full_path)
             except Exception as transcription_error:
                 speech_text = "Transcription failed: " + str(transcription_error)
             
