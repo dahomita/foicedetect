@@ -706,6 +706,7 @@ html {
 
 
 .response-button {
+  margin-top: 50px;
   background-color: #B7E9FF !important;
   border: none !important;
   font-size: 1.5rem !important;
