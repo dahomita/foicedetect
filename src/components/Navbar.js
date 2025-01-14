@@ -77,7 +77,7 @@ function NavBar() {
             <Nav.Item>
               <Nav.Link
                 as={Link}
-                to="/project"
+                to="/voiceStorage"
                 onClick={() => updateExpanded(false)}
                 style={navLinkStyle}
               >

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
-import About from "./components/Fakevoicedetect/Fakevoicedetect";
-import Projects from "./components/Projects/Projects";
+import Fakevoicedetect from "./components/Fakevoicedetect/Fakevoicedetect";
+import VoiceStorage from "./components/VoiceStorage/VoiceStorage";
 import Footer from "./components/Footer";
 import {
   BrowserRouter as Router,
@@ -33,8 +33,8 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/project" element={<Projects />} />
-          <Route path="/fakevoicedetect" element={<About />} />
+          <Route path="/voiceStorage" element={<VoiceStorage />} />
+          <Route path="/fakevoicedetect" element={<Fakevoicedetect />} />
           <Route path="*" element={<Navigate to="/"/>} />
         </Routes>
         <Footer />

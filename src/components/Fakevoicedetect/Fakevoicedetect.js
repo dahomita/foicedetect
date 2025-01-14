@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Button, Form, Spinner } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  Spinner,
+  Tooltip,
+  OverlayTrigger,
+} from "react-bootstrap";
 import Particle from "../Particle";
 import "../../style.css";
 import homeLogo1 from "../../Assets/Group 1533 (1).png";
@@ -11,6 +20,7 @@ function About() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState("");
+  //const [isDetectClicked, setIsDetectedClicked] = useState(false);
 
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
@@ -32,6 +42,7 @@ function About() {
 
     setIsProcessing(true);
     setResult(""); // Clear previous results
+    //setIsDetectedClicked(false);
 
     try {
       const formData = new FormData();
@@ -61,7 +72,7 @@ function About() {
               ? ` (Confidence: ${data.confidence.toFixed(2)}%)`
               : "Confidence currently not available for display."
           }`
-        );        
+        );
         setAiAnalysis(data.ai_analysis);
       } else {
         throw new Error("Unexpected response format");
@@ -89,6 +100,12 @@ function About() {
   const handleCustomButtonClick = () => {
     fileInputRef.current.click(); // Trigger the file input click event
   };
+
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Click here if you're hesitant to answer the call
+    </Tooltip>
+  );
 
   return (
     <Container fluid className="foicedetect-section">
@@ -185,6 +202,19 @@ function About() {
                 <Analysis aiAnalysis={aiAnalysis} />
               </div>
             )}
+
+            {/* <div style = {{ margin: "30px", textAlign: "center"}}> */}
+            {/* <OverlayTrigger placement = "top" overlay={renderTooltip}>   */}
+            <Button
+              className="response-button"
+              onClick={() => {
+                console.log("Clicked");
+              }}
+            >
+              FAKE VOICE? Here's the Response
+            </Button>
+            {/* </OverlayTrigger> */}
+            {/* </div> */}
           </Col>
         </Row>
       </Container>

@@ -437,7 +437,7 @@ button:focus {
   color: #373E3D !important;
 }
 /* --------- */
-/* Projects */
+/* Voice Storage */
 /* --------- */
 .project-section {
   position: relative !important;
@@ -474,6 +474,37 @@ button:focus {
   padding-left: 25px !important;
   padding-right: 25px !important;
   height: auto !important;
+}
+
+.button-add1 {
+  background-color: #B7E9FF !important;
+  color: black !important;
+}
+
+.common-card1 {
+  border: none !important;
+  border-radius: 50px !important;
+}
+
+.common-card2 {
+  border: none !important;
+  border-radius: 50px !important;
+  background-color: black !important;
+  color: white !important;
+}
+
+.card-des1 {
+  background-color: black !important;
+  color: white !important;
+  font-weight: bold;
+  font-family: "Poppins";
+}
+
+.card-des2 {
+  background-color: white !important;
+  color: black !important;
+  font-weight: bold;
+  font-family: "Poppins"
 }
 
 .blog-card-view {
@@ -565,6 +596,7 @@ button:focus {
   color: black !important;
   font-family: 'Poppins';
   cursor: pointer !important;
+  border-radius: 8px !important;
   filter: drop-shadow(4px 4px 4px black) !important;
 }
 
@@ -589,7 +621,7 @@ button:focus {
 }
 
 
-.fork-btn {
+/* .fork-btn {
   font-size: 1.1em !important;
   padding-top: 10px !important;
 }
@@ -609,7 +641,7 @@ button:focus {
 }
 .fork-btn-inner::after {
   display: none !important;
-}
+} */
 
 html {
   --analysis-item-bg: #171B1D; /* Matches the overall dark background */
@@ -652,4 +684,38 @@ html {
   line-height: 1.4;
   color: var(--analysis-item-content-text);
   text-align: left;
+}
+
+/* .response-button {
+  background-color: red !important;
+  font-weight: bold !important;
+  font-size: 25px !important;
+  color: white !important;
+  cursor: pointer !important;
+  border-radius: 8px !important;
+  border: 2px solid white !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.response-button:hover {
+  background-color: white !important;
+  color: red !important;
+  border-color: red !important;
+} */
+
+.response-button {
+  background-color: red !important;
+  border: none !important;
+  font-size: 1.2rem !important;
+  padding: 10px 20px !important;
+  color: white !important;
+  font-family: 'Poppins';
+  cursor: pointer !important;
+  border-radius: 8px !important;
+  filter: drop-shadow(4px 4px 4px black) !important;
+}
+
+.response-button:hover {
+  background-color: white !important;
+  color: red !important;
 }
