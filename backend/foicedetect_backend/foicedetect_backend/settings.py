@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+# Load environment variables
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "accounts",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -107,10 +112,14 @@ WSGI_APPLICATION = 'foicedetect_backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+   'default': {
+       'ENGINE': os.getenv('DB_ENGINE'),
+       'NAME': os.getenv('DB_NAME'),
+       'USER': os.getenv('DB_USER'),
+       'PASSWORD': os.getenv('DB_PASSWORD'),
+       'HOST': os.getenv('DB_HOST'),
+       'PORT': os.getenv('DB_PORT'),
+   }
 }
 
 
