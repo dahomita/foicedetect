@@ -8,18 +8,13 @@
 }
 
 .single-document-card {
-  background: linear-gradient(
-    135deg,
-    #3a7bd5,
-    #6dd5ed
-  ); /* Gradient matching the document-card */
   border-radius: 15px; /* Slightly rounded corners */
   padding: 30px;
   /* max-width: 900px; */
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Box-shadow for depth */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   min-height: 500px;
-  background-color: #fff; /* Solid background color */
+  background-color: #171B1D; /* Solid background color */
   width: 900px;
   justify-self: center;
 }
@@ -57,7 +52,7 @@
 /* Label Styles */
 .label {
   font-weight: bold;
-  color: #333;
+  color: white;
   font-size: 1.1rem;
 }
 
@@ -65,7 +60,7 @@
 .single-document-details {
   margin-top: 20px;
   font-size: 1rem;
-  color: #555;
+  color: white;
 }
 
 .single-document-details p {
