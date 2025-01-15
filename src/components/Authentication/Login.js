@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "./Form";
 import "./Form.css";
 import Particle from "../Particle";
+import { ACCESS_TOKEN } from "../../constant";
 
 const LogIn = (props) => {
   // const [email, setEmail] = useState("");
@@ -21,6 +22,12 @@ const LogIn = (props) => {
   //     setError("Invalid email or password. Please try again.");
   //   }
   // };
+
+  useEffect(() => {
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+      navigate("/profile");
+    }
+  }, []);
 
   const handleSignup = () => {
     navigate("/signup");

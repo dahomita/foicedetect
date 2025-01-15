@@ -29,10 +29,11 @@ function Form({ route, method, setIsLoggedIn, isLoggedIn }) {
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+        localStorage.setItem("username", username);
         setIsLoggedIn(true);
         alert("Successfully Logged In!");
         // setIsAuthorized(true);
-        navigate("/");
+        navigate("/profile");
       } else {
         alert("Successfully Signed Up!");
         navigate("/login");

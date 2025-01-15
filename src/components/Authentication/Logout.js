@@ -8,6 +8,7 @@ const Logout = (props) => {
   useEffect(() => {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.removeItem("username");
     props.setIsLoggedIn(false)
     navigate("/"); // Redirect to the login page or home page
   }, [navigate]);
