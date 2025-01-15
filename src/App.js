@@ -65,14 +65,16 @@ function App() {
           <Route
             path="/saveresults"
             element={
-              <SaveResultsForm
-                detectData={detectData}
-                setDetectData={setDetectData}
-                fileName={fileName}
-                setFileName={setFileName}
-                reply={reply}
-                setReply={setReply}
-              />
+              <ProtectedRoute>
+                <SaveResultsForm
+                  detectData={detectData}
+                  setDetectData={setDetectData}
+                  fileName={fileName}
+                  setFileName={setFileName}
+                  reply={reply}
+                  setReply={setReply}
+                />
+              </ProtectedRoute>
             }
           />
           <Route path="/signup" element={<SignUp />} />
@@ -104,7 +106,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/test"
             element={
               <ProtectedRoute>
@@ -118,7 +120,7 @@ function App() {
                 />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />
