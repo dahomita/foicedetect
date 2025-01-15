@@ -23,6 +23,8 @@ import Profile from "./components/Authentication/Profile";
 import Test from "./components/SaveResults/Test";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constant";
 import Logout from "./components/Authentication/Logout";
+import DetectionDocuments from "./components/SaveResults/UserResultDocs";
+import DocumentPage from "./components/SaveResults/DocumentPage";
 
 function App() {
   const [load, upadateLoad] = useState(true);
@@ -32,6 +34,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem(ACCESS_TOKEN) ? true : false
   );
+  const [documents, setDocuments] = useState(null);
+  const [curId, setCurId] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,6 +45,42 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      const csrfToken = document.cookie
+        .split(";")
+        .find((cookie) => cookie.trim().startsWith("csrftoken="))
+        ?.split("=")[1];
+
+      try {
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/user_detection_documents/",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "X-CSRFToken": csrfToken,
+            },
+            credentials: "include",
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Failed to fetch documents");
+        }
+
+        const data = await response.json();
+        setDocuments(data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
+
   return (
     <Router>
       <div className="App" id={load ? "no-scroll" : "scroll"}>
@@ -48,7 +88,7 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/voiceStorage" element={<VoiceStorage />} />
+          {/* <Route path="/voiceStorage" element={<VoiceStorage />} /> */}
           <Route
             path="/fakevoicedetect"
             element={
@@ -121,7 +161,15 @@ function App() {
               </ProtectedRoute>
             }
           /> */}
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route
+            path="profile/documents"
+            element={<DetectionDocuments curId={curId} setCurId={setCurId} />}
+          />
+          <Route
+            path="documents/:id"
+            element={<DocumentPage curId={curId} setCurId={setCurId} />}
+          />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
         <Footer />
       </div>

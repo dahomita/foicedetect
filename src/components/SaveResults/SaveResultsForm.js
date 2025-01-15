@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Particle from "../Particle";
 import { ACCESS_TOKEN } from "../../constant";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const SaveResultsForm = (props) => {
   const [name, setName] = useState("");
@@ -17,6 +18,19 @@ const SaveResultsForm = (props) => {
   console.log(props.reply);
 
   const [reply, setReply] = useState(props.reply);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      !props.detectData.ai_analysis ||
+      !props.detectData.confidence ||
+      !props.detectData.result
+    ) { 
+      navigate("/fakevoicedetect");
+      alert("No results to save. Please upload a recording first!");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +61,7 @@ const SaveResultsForm = (props) => {
             "X-CSRFToken": csrfToken,
           },
           body: formData,
-          credentials: "include", // Ensures cookies are sent (e.g., CSRF token)
+          credentials: "include",
         }
       );
 
