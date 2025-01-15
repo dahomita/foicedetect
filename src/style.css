@@ -76,6 +76,16 @@ button:focus {
 /* --------- */
 /* Navbar Section  */
 /* --------- */
+
+.SignUpButton{
+  font-family: 'Poppins';
+  border-radius: 6px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  display: flex;
+  margin-left: 30px;
+  justify-content: center;
+}
 .sticky {
   font-family: 'Poppins';
   background-color: #171B1D !important;
@@ -166,6 +176,7 @@ button:focus {
 
 .navbar-nav .nav-link {
   color: white !important;
+  font-family: 'Poppins';
   padding-right: 1rem !important;
   padding-left: 1rem !important;
 }
@@ -398,40 +409,52 @@ button:focus {
 /* --------- */
 .footer {
   background-color: #B7E9FF;
-  bottom: 0 !important;
-  padding-top: 10px !important;
-  padding-bottom: 8px !important ;
+  color: #171B1D;
+  padding: 1rem 0;
+  text-align: center;
+  font-family: 'Poppins';
 }
+
+.footer .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}
+
+.footer-creator {
+  text-align: left;
+  flex: 1;
+  padding-left: 1rem;
+}
+
 .footer-copywright {
-  text-align: center !important;
+  text-align: right;
+  flex: 1;
+  padding-right: 1rem;
 }
 
-.footer-body {
-  z-index: 1;
-  text-align: center !important;
+h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: normal;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
+  .footer .row {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-creator,
   .footer-copywright {
-    text-align: center !important;
-  }
+    text-align: center;
+    padding: 0.5rem 0;
+    color: #171B1D !important;
 
-  .footer-body {
-    text-align: center !important;
   }
 }
 
-.footer h3 {
-  font-size: 1em;
-  color: #171B1D !important;
-  margin-top: 0.5em !important;
-  margin-bottom: 0.5em !important;
-}
-.footer-icons {
-  margin-top: 0.5em !important;
-  margin-bottom: 0.5em !important;
-  padding: 0 !important;
-}
 
 .blockquote-footer {
   color: #373E3D !important;
@@ -614,8 +637,8 @@ button:focus {
 html {
   --analysis-item-bg: #171B1D; /* Matches the overall dark background */
   --analysis-item-border: #373E3D; /* Soft, neutral border */
-  --analysis-item-header-bg: #2A4B8D; /* Blue for the header */
-  --analysis-item-header-text: #B7E9FF; /* Light blue text color */
+  --analysis-item-header-bg: #B7E9FF; /* Blue for the header */
+  --analysis-item-header-text: #171B1D; /* Light blue text color */
   --analysis-item-content-text: #D1D5DB; /* Subtle light gray for content */
   --analysis-item-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
@@ -652,4 +675,38 @@ html {
   line-height: 1.4;
   color: var(--analysis-item-content-text);
   text-align: left;
+}
+
+/* --------- */
+/* SignUp page */
+/* --------- */
+
+.signup-section{
+  position: relative !important;
+  padding-top: 150px !important;
+  padding-bottom: 30px !important;
+  background-image: var(--section-background-color) !important;
+  
+}
+.signup-form{
+  font-family: 'Poppins';
+}
+.signup-items{
+  font-family: 'Poppins';
+}
+
+.loginButton {
+  background-color: #171B1D;
+  color: #B7E9FF;
+  border-radius: 6px;
+  margin: 10px;
+}
+
+.createYourAccount{
+  color: #B7E9FF !important;
+  margin: 10px;
+  margin-bottom: 15px;
+}
+.startOurPlatform{
+  color: #B7E9FF !important;
 }

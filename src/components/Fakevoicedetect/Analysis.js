@@ -3,9 +3,9 @@ import AnalysisItem from "./AnalysisItem";
 import "../../style.css";
 
 const Analysis = (props) => {
-  console.log(props.aiAnalysis);
+  // console.log(props.aiAnalysis);
   const analysis = props.aiAnalysis.split("ENDPARAGRAPH!!!");
-  console.log(analysis);
+  // console.log(analysis);
 
   return (
     <div className="analysis">

@@ -4,8 +4,9 @@ import Particle from "../Particle";
 import "../../style.css";
 import homeLogo1 from "../../Assets/Group 1533 (1).png";
 import Analysis from "./Analysis";
+import { useNavigate } from "react-router-dom";
 
-function About() {
+function About(props) {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -16,6 +17,7 @@ function About() {
     const uploadedFile = e.target.files[0];
     if (uploadedFile && uploadedFile.type === "audio/wav") {
       setFile(uploadedFile);
+      props.setFileName(uploadedFile.name);
       setResult("");
       setUploadSuccess(true);
     } else {
@@ -51,6 +53,10 @@ function About() {
       }
 
       const data = await response.json();
+      console.log(data);
+
+      props.setDetectData(data);
+      console.log(props.detectData);
 
       // Check for expected response structure
       if (data.result) {
@@ -61,7 +67,7 @@ function About() {
               ? ` (Confidence: ${data.confidence.toFixed(2)}%)`
               : "Confidence currently not available for display."
           }`
-        );        
+        );
         setAiAnalysis(data.ai_analysis);
       } else {
         throw new Error("Unexpected response format");
@@ -88,6 +94,12 @@ function About() {
 
   const handleCustomButtonClick = () => {
     fileInputRef.current.click(); // Trigger the file input click event
+  };
+
+  const navigate = useNavigate();
+  const handleSaveResults = () => {
+    // navigate("/saveresults");
+    navigate("/test");
   };
 
   return (
@@ -183,6 +195,13 @@ function About() {
                   <strong>{result}</strong>
                 </h2>
                 <Analysis aiAnalysis={aiAnalysis} />
+                <Button
+                  className="detect-button"
+                  variant="primary"
+                  onClick={handleSaveResults}
+                >
+                  Save Results
+                </Button>
               </div>
             )}
           </Col>

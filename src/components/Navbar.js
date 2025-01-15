@@ -84,8 +84,19 @@ function NavBar() {
                 Voice Storage
               </Nav.Link>
             </Nav.Item>
+            <Nav.Item className="SignUpButton">
+              <Nav.Link
+                as={Link}
+                to="/login"
+                onClick={() => updateExpanded(false)}
+                style={navLinkStyle}
+              >
+                Log In
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
         </Navbar.Collapse>
+        
       </Container>
     </Navbar>
   );

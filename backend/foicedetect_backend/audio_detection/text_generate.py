@@ -21,6 +21,8 @@ def generate_analysis(speech_to_text_output, classification_result):
     Speech-to-Text Content:
     "{speech_to_text_output}"
 
+    Remember to briefly summarize the Speech-to-Text content.
+
     Classification Result:
     "{classification_result}"
 

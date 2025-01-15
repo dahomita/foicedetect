@@ -3,6 +3,8 @@ import traceback
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
+# from .models import DetectionDocument
+
 
 # Direct import from the same directory
 from .predict import analyze_audio
@@ -15,6 +17,7 @@ def detect_audio(request):
             return JsonResponse({'error': 'No file uploaded'}, status=400)
         
         file = request.FILES['file']
+        print(file.name)
         
         # Ensure file is .wav
         if not file.name.lower().endswith('.wav'):
@@ -79,3 +82,32 @@ def detect_audio(request):
             }, status=500)
     
     return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+# @csrf_exempt
+# def save_detection_document(request):
+#     if request.method == 'POST':
+#       # Ensure user is authenticated
+#     #   if not request.user.is_authenticated:
+#     #       return JsonResponse({'error': 'Authentication required'}, status=401)
+
+#       # Get uploaded file from request
+#       file = request.FILES.get('file')
+#       if not file:
+#           return JsonResponse({'error': 'No file provided'}, status=400)
+
+#       # Create and save the DetectionDocument
+#       try:
+#           detection_doc = DetectionDocument.objects.create(
+#               user=request.user,
+#               name=request.POST.get('name', 'Untitled'),  # Get the document name from the request or default to 'Untitled'
+#               recordingName=file.name  # Save the name of the uploaded file
+#           )
+#           return JsonResponse({
+#               'message': 'Detection document saved successfully',
+#               'detection_document_id': detection_doc.id
+#           }, status=201)
+
+#       except Exception as e:
+#           return JsonResponse({'error': str(e)}, status=500)
+
+#     return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
