@@ -86,7 +86,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-### Frontend Setup An Run
+### Frontend Setup And Run
 ```bash
 npm install
 npm start
