@@ -63,7 +63,14 @@ const DocumentPage = (props) => {
       >
         Back To Storage
       </Button>
-      <div key={doc.id} className="single-document-card">
+      <div
+        key={doc.id}
+        className={`${
+          props.curId % 2 == 0
+            ? "single-document-card-alt"
+            : "single-document-card"
+        }`}
+      >
         <div className="single-document-header">
           <h2 className="single-document-name">{doc.name}</h2>
           <span className="single-document-id">#{props.curId}</span>

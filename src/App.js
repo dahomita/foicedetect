@@ -99,6 +99,8 @@ function App() {
                 setFileName={setFileName}
                 reply={reply}
                 setReply={setReply}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
               />
             }
           />
@@ -163,11 +165,19 @@ function App() {
           /> */}
           <Route
             path="/documents"
-            element={<DetectionDocuments curId={curId} setCurId={setCurId} />}
+            element={
+              <ProtectedRoute>
+                <DetectionDocuments curId={curId} setCurId={setCurId} />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="documents/:id"
-            element={<DocumentPage curId={curId} setCurId={setCurId} />}
+            element={
+              <ProtectedRoute>
+                <DocumentPage curId={curId} setCurId={setCurId} />
+              </ProtectedRoute>
+            }
           />
           {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>

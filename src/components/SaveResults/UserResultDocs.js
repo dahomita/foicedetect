@@ -66,57 +66,103 @@ const DetectionDocuments = (props) => {
   return (
     <div className="documents-container">
       <Particle />
-      <h1
-        className="documents-title"
-        style={{ width: "100%", position: "relative" }}
-      >
-        <span>
-          {props.source === "profile"
-            ? "Your Latest Detection Documents"
-            : "Your Detection Documents"}
-        </span>
-        <span
-          style={{ position: "absolute", right: "2em", cursor: "pointer" }}
-          onClick={() => {
-            navigate("/documents");
-          }}
+      <div className="documents-container2" style={{ zIndex: "1000" }}>
+        <h1
+          className="documents-title"
+          style={{ width: "100%", position: "relative" }}
         >
-          <span className="view-storage-btn">View Storage</span> &#x2192;
-        </span>
-      </h1>
-      <div className="documents-list">
-        {documents.map((doc, id) => {
-          if (props.source === "profile" && id < documents.length - 3) return;
-          return (
-            <abbr
-              title="Click to see Document Details"
-              style={{ textDecoration: "none" }}
+          <span>
+            {props.source === "profile"
+              ? "Your Latest Detection Documents"
+              : "Your Detection Documents"}
+          </span>
+          {documents.length > 0 && props.source === "profile" ? (
+            <span
+              style={{ position: "absolute", right: "2em", cursor: "pointer" }}
+              onClick={() => {
+                navigate("/documents");
+              }}
             >
-              <div
-                key={id}
-                className="document-card inset-shadow"
-                onClick={(e) => {
-                  props.setCurId(id + 1);
-                  navigate(`/documents/${doc.id}`);
+              <span className="view-storage-btn">View Storage</span> &#x2192;
+            </span>
+          ) : null}
+        </h1>
+        <div className="documents-list">
+          {documents.length === 0 ? (
+            <div>
+              No saved documents.{" "}
+              <a
+                onClick={() => {
+                  navigate("/fakevoicedetect");
+                }}
+                style={{
+                  textDecoration: "none",
+                  textDecoration: "underline",
+                  zIndex: "1000",
                 }}
               >
-                <div className="document-header">
-                  <h2 className="document-name">{doc.name}</h2>
-                  <span className="document-id">#{id + 1}</span>
-                </div>
-                <div className="document-details">
-                  <p>
-                    <span className="label">Confidence:</span>{" "}
-                    <div>{doc.confidence_score}</div>
-                  </p>
-                  <p>
-                    <span className="label">File Name:</span>{" "}
-                    <div>{doc.recording_name}</div>
-                  </p>
-                  <p>
-                    <span className="label">AI Analysis: </span>
-                    {doc.ai_analysis ? (
-                      <>
+                Create one?
+              </a>
+            </div>
+          ) : null}
+          {documents.map((doc, id) => {
+            if (props.source === "profile" && id < documents.length - 3) return;
+            return (
+              <abbr
+                title="Click to see Document Details"
+                style={{ textDecoration: "none" }}
+              >
+                <div
+                  key={id}
+                  className={`${
+                    id % 2 == 0 ? "document-card" : "document-card-alt"
+                  } inset-shadow`}
+                  onClick={(e) => {
+                    props.setCurId(id + 1);
+                    navigate(`/documents/${doc.id}`);
+                  }}
+                >
+                  <div className="document-header">
+                    <h2 className="document-name">{doc.name}</h2>
+                    <span className="document-id">#{id + 1}</span>
+                  </div>
+                  <div className="document-details">
+                    <p>
+                      <span className="label">Confidence:</span>{" "}
+                      <div>{doc.confidence_score}</div>
+                    </p>
+                    <p>
+                      <span className="label">File Name:</span>{" "}
+                      <div>{doc.recording_name}</div>
+                    </p>
+                    <p>
+                      <span className="label">AI Analysis: </span>
+                      {doc.ai_analysis ? (
+                        <>
+                          <div
+                            style={{
+                              boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.55)",
+                              maxHeight: "15rem",
+                            }}
+                          >
+                            <div
+                              style={{
+                                maxHeight: "15rem",
+                                overflowY: "auto",
+                                padding: "1rem",
+                              }}
+                            >
+                              {doc.ai_analysis}
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div>No analysis generated.</div>
+                      )}
+                    </p>
+                    <p>
+                      <span className="label">Reply:</span>
+                      {doc.reply ? (
                         <div
                           style={{
                             boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.55)",
@@ -130,46 +176,23 @@ const DetectionDocuments = (props) => {
                               padding: "1rem",
                             }}
                           >
-                            {doc.ai_analysis}
+                            {doc.reply}
                           </div>
                         </div>
-                      </>
-                    ) : (
-                      <div>No analysis generated.</div>
-                    )}
-                  </p>
-                  <p>
-                    <span className="label">Reply:</span>
-                    {doc.reply ? (
-                      <div
-                        style={{
-                          boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.55)",
-                          maxHeight: "15rem",
-                        }}
-                      >
-                        <div
-                          style={{
-                            maxHeight: "15rem",
-                            overflowY: "auto",
-                            padding: "1rem",
-                          }}
-                        >
-                          {doc.reply}
-                        </div>
-                      </div>
-                    ) : (
-                      <div>No reply generated.</div>
-                    )}
-                  </p>
-                  <p>
-                    <span className="label">Created At:</span>{" "}
-                    <div>{new Date(doc.created_at).toLocaleString()}</div>
-                  </p>
+                      ) : (
+                        <div>No reply generated.</div>
+                      )}
+                    </p>
+                    <p>
+                      <span className="label">Created At:</span>{" "}
+                      <div>{new Date(doc.created_at).toLocaleString()}</div>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </abbr>
-          );
-        })}
+              </abbr>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

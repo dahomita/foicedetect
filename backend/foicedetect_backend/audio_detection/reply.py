@@ -26,7 +26,9 @@ def generate_hilarious_reply(transcript_text):
     Use absurd logic, overly complex reasoning, and sprinkle in random but funny facts that make no sense in the context. 
     The reply should leave the scammer speechless and questioning their own choices in life.
 
-    Keep the tone witty, sarcastic, and a little over-the-top, but avoid being rude or offensive.
+    If the transcript is [No Transcript. Audio intelligible.], it means the audio is not intelligible. In that case, just give a general response to a scammer.
+
+    Keep the tone witty, sarcastic, and a little over-the-top, but avoid being rude or offensive.    
 
     Go straight to the reply to the scammer.
     """
