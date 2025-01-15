@@ -145,8 +145,8 @@ function About(props) {
 
   const navigate = useNavigate();
   const handleSaveResults = () => {
-    // navigate("/saveresults");
-    navigate("/test");
+    navigate("/saveresults");
+    // navigate("/test");
   };
 
   const renderTooltip = (props) => (

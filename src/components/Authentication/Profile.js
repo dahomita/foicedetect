@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import api from "../../api"; // Your Axios instance
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constant";
 import "./Profile.css"; // CSS file for styles
+import Particle from "../Particle";
+import DetectionDocuments from "../SaveResults/UserResultDocs";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -25,6 +27,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.removeItem("username");
     window.location.href = "/"; // Simple redirect
   };
 
@@ -46,7 +49,8 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <div className="profile-card">
+      <Particle />
+      <div className="profile-card" style={{ zIndex: "1000" }}>
         <h1 className="profile-title">User Profile</h1>
         <div className="profile-details">
           <p>
@@ -63,6 +67,7 @@ const Profile = () => {
           Log out
         </button>
       </div>
+      <DetectionDocuments source="profile" />
     </div>
   );
 };

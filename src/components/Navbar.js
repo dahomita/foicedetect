@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import logo from "../Assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constant";
 // import { ACCESS_TOKEN } from "../constant";
 
 function NavBar(props) {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
+  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   function scrollHandler() {
     if (window.scrollY >= 20) {
@@ -28,6 +35,28 @@ function NavBar(props) {
     fontFamily: "'Poppins', sans-serif",
     fontWeight: 400,
   };
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const res = await api.get("/api/user/profile/");
+        setUser(res.data);
+        setUsername(res.data.username);
+      } catch (error) {
+        setError("Failed to fetch user profile.");
+      }
+    };
+    fetchUserProfile();
+  }, []);
+
+  useEffect(() => {
+    if (username) {
+      localStorage.removeItem(ACCESS_TOKEN);
+      localStorage.removeItem(REFRESH_TOKEN);
+      localStorage.removeItem("username");
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
     <Navbar
@@ -78,21 +107,23 @@ function NavBar(props) {
             <Nav.Item>
               <Nav.Link
                 as={Link}
-                to="/voiceStorage"
+                to="/documents"
                 onClick={() => updateExpanded(false)}
                 style={navLinkStyle}
               >
-                Voice Storage
+                Storage
               </Nav.Link>
             </Nav.Item>
             <Nav.Item className="SignUpButton">
               <Nav.Link
                 as={Link}
-                to={props.isLoggedIn ? "/logout" : "/login"}
+                to={props.isLoggedIn ? "/profile" : "/login"}
                 onClick={() => updateExpanded(false)}
                 style={navLinkStyle}
               >
-                {props.isLoggedIn ? "Log Out" : "Log In"}
+                {props.isLoggedIn
+                  ? `Hello, ${localStorage.getItem("username")}`
+                  : "Log In"}
               </Nav.Link>
             </Nav.Item>
           </Nav>

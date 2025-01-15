@@ -22,6 +22,7 @@ const AccountDeletion = (props) => {
       // Clear tokens and redirect
       localStorage.removeItem(ACCESS_TOKEN);
       localStorage.removeItem(REFRESH_TOKEN);
+      localStorage.removeItem("username");
       navigate("/"); // Redirect to home or another appropriate route
     } catch (error) {
       setError(

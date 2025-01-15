@@ -9,6 +9,9 @@ class DetectionDocument(models.Model):
   is_genuine = models.CharField(max_length=200, null=True)
   confidence_score = models.FloatField(help_text="Confidence score from 0 to 100, in %", null=True)
   ai_analysis = models.TextField(blank=True, null=True)
+  reply = models.TextField(blank=True, null=True)
+  created_at = models.DateTimeField(auto_now_add=True, null=True)
+
 
   def __str__(self):
     return self.name

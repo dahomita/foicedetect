@@ -23,6 +23,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import DetectionDocumentSerializer
 from django.http import JsonResponse
 
+from django.utils import timezone 
+
+
 # Create your views here.
 class CreateUserView(generics.CreateAPIView):
   queryset = User.objects.all()
@@ -103,7 +106,8 @@ class SaveDetectionDocumentView(APIView):
             is_genuine=is_genuine,
             confidence_score=confidence_score,
             ai_analysis=ai_analysis,
-            reply=reply
+            reply=reply,
+            created_at=timezone.now()
             # file=file
         )
         serializer = DetectionDocumentSerializer(document)
@@ -114,3 +118,18 @@ class SaveDetectionDocumentView(APIView):
     
     except Exception as e:
         return Response({"error": f"An error occurred: {str(e)}"}, status=500)
+    
+class UserDetectionDocumentsView(APIView):
+  permission_classes = [IsAuthenticated]
+
+  def get(self, request):
+    user = request.user
+    user_documents = DetectionDocument.objects.filter(user=user)
+    serializer = DetectionDocumentSerializer(user_documents, many=True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
+  
+class DocumentDetailView(generics.RetrieveAPIView):
+    queryset = DetectionDocument.objects.all()
+    serializer_class = DetectionDocumentSerializer
+    lookup_field = 'id'
