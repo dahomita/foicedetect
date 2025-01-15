@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import Particle from "../Particle";
 import { ACCESS_TOKEN } from "../../constant";
 import { Navigate, useNavigate } from "react-router-dom";
+import "./SaveResultsForm.css";
 
 const SaveResultsForm = (props) => {
   const [name, setName] = useState("");
@@ -80,8 +81,10 @@ const SaveResultsForm = (props) => {
   };
 
   return (
-    <div style={{ marginTop: "100px" }}>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className="SaveSection" style={{width: "100%", minHeight: "100vh"}}>
+      <Particle/>
+    <div className="SaveSection2">
+      <form className="form2" onSubmit={handleSubmit} encType="multipart/form-data" style={{zIndex: "1000"}}>
         <input
           type="text"
           name="name"
@@ -115,6 +118,7 @@ const SaveResultsForm = (props) => {
         <button type="submit">Upload</button>
       </form>
       {message && <p>{message}</p>}
+    </div>
     </div>
   );
 };

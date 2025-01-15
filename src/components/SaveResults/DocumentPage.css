@@ -11,7 +11,7 @@
   border-radius: 15px; /* Slightly rounded corners */
   padding: 30px;
   /* max-width: 900px; */
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Box-shadow for depth */
+  box-shadow: 15px 15px #f9f9f9; /* Box-shadow for depth */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   min-height: 500px;
   background-color: #171B1D; /* Solid background color */
@@ -21,7 +21,7 @@
 
 .single-document-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+
 }
 
 /* Header */
