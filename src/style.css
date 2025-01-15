@@ -818,7 +818,7 @@ html {
 
 /* Gradient background using shades of purple and blue */
 .reply-container {
-  background: linear-gradient(to bottom right, #6a1b9a, #8e24aa, #9c4dcc, #4a90e2, #5c6bc0); /* Purple and Blue shades */
+  background:  #171B1D; /* Purple and Blue shades */
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
@@ -828,7 +828,7 @@ html {
 
 /* Text color for better readability */
 .reply-text {
-  color: #ffffff; /* White text for contrast */
+  color: #fff; /* White text for contrast */
   font-size: 1.1rem;
   line-height: 1.5;
   font-family: 'Poppins', sans-serif;
