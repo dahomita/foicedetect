@@ -71,11 +71,7 @@ ASSEMBLY_API_KEY=e98e3dcc13624e2c846c6de74a34809e
 ```
 
 ⚠️ **Security Warning:**
-- NEVER commit your `.env` file to version control
-- Add `.env` to your `.gitignore` file to prevent accidental exposure
-- Treat API keys as sensitive credentials
-- Rotate these keys periodically
-- Do not share these keys publicly
+- Please don't use our key too much
 
 ### Backend Setup And Run
 ```bash
