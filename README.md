@@ -1,76 +1,82 @@
-<h2 align="center">
-  Portfolio Website - v2.0<br/>
-  <a href="https://soumyajit.vercel.app/" target="_blank">soumyajit.tech</a>
-</h2>
-<div align="center">
-  <img alt="Demo" src="./Images/readme-img1.png" />
-</div>
+# FoiceDetect: AI-Powered Voice Detection and Classification
 
-<br/>
+## Project Overview
 
-<center>
+FoiceDetect is an advanced machine learning project focused on voice detection and classification. The application leverages cutting-edge AI technologies to analyze and categorize voice samples with high precision.
 
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) &nbsp;
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) &nbsp;
-[![forthebadge](https://forthebadge.com/images/badges/open-source.svg)](https://forthebadge.com) &nbsp;
-![GitHub Repo stars](https://img.shields.io/github/stars/soumyajit4419/Portfolio?color=red&logo=github&style=for-the-badge) &nbsp;
-![GitHub forks](https://img.shields.io/github/forks/soumyajit4419/Portfolio?color=red&logo=github&style=for-the-badge)
+## 🚀 Technologies Stack
 
-</center>
-
-<h3 align="center">
-    🔹
-    <a href="https://github.com/soumyajit4419/Portfolio/issues">Report Bug</a> &nbsp; &nbsp;
-    🔹
-    <a href="https://github.com/soumyajit4419/Portfolio/issues">Request Feature</a>
-</h3>
-
-## TL;DR
-
-You can fork this repo to modify and make changes of your own. Please give me proper credit by linking back to [Soumyajit4419](https://github.com/soumyajit4419/Portfolio). Thanks!
-
-## Built With
-
-My personal portfolio <a href="https://soumyajit.vercel.app/" target="_blank">soumyajit.tech</a> which features some of my github projects as well as my resume and technical skills.<br/>
-
-This project was built using these technologies.
-
+### Frontend
 - React.js
-- Node.js
-- Express.js
-- CSS3
-- VsCode
-- Vercel
+- React Bootstrap
+- Axios
+- JavaScript ES6+
 
-## Features
+### Backend
+- Python
+- Django
+- Machine Learning Libraries
+  ### Backend Machine Learning Libraries
+  - NumPy
+  - Scikit-learn
+    - SVC (Support Vector Classification)
+    - train_test_split
+    - StandardScaler
+  - Librosa (Audio feature extraction)
+  - Joblib (Model serialization)
+- AssemblyAI Integration
 
-**📖 Multi-Page Layout**
+### Key Features
+- Voice Detection
+- Voice Classification
+- Real-time Audio Analysis
+- Machine Learning Model Training
 
-**🎨 Styled with React-Bootstrap and Css with easy to customize colors**
+## 🛠 Installation and Setup
 
-**📱 Fully Responsive**
+### Prerequisites
+- Python 3.8+
+- Node.js 14+
+- pip
+- git
 
-## Getting Started
+### Repository Clone
+```bash
+git clone https://github.com/dahomita/foicedetect.git
+cd foicedetect
+```
 
-Clone down this repository. You will need `node.js` and `git` installed globally on your machine.
+### Backend Setup And Run
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate
+cd foicedetect_backend
+pip install -r requirement.txt
+pip install assemblyai
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
 
-## 🛠 Installation and Setup Instructions
+### Frontend Setup An Run
+```bash
+npm install
+npm start
+```
 
-1. Installation: `npm install`
+## 🤝 Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-2. In the project directory, you can run: `npm start`
+## 📄 License
+[Specify License - e.g., MIT License]
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-The page will reload if you make edits.
+## 🌟 Support
+Found this project helpful? Consider giving it a star! ⭐
 
-## Usage Instructions
-
-Open the project folder and Navigate to `/src/components/`. <br/>
-You will find all the components used and you can edit your information accordingly.
-
-### Show your support
-
-Give a ⭐ if you like this website!
-
-<a href="https://www.buymeacoffee.com/soumyajit4419" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" height= "60px" width= "217px" ></a>
+## 📞 Contact
+[Project Maintainer Contact Information]
