@@ -2,7 +2,17 @@
 
 ## Project Overview
 
-FoiceDetect is an advanced machine learning project focused on voice detection and classification. The application leverages cutting-edge AI technologies to analyze and categorize voice samples with high precision.
+FoiceDetect is an advanced machine learning project designed to detect fake voices and provide users with effective solutions to prevent scams. With the rise of AI-generated voice scams, FoiceDetect empowers individuals to stay secure by identifying synthetic voices and offering practical tips to protect themselves.
+
+Tracks: 
+- Cybersecurity Track (WithSandra) $325
+- Most Technically Impressive - Modal (Series A company) $2,000 credits grand prize
+- Nethenoob spinning cat ($65 cash)
+ - Nebius Exploratory Use of LLMs and Vision Models:
+    - 1st Place: $2,000 credits
+    - 2nd Place: $1,000 credits
+    - 3rd Place: $500 credits
+- $1625 CASH (STATSIG GRAND PRIZE)
 
 ## 🚀 Technologies Stack
 
@@ -24,7 +34,7 @@ FoiceDetect is an advanced machine learning project focused on voice detection a
     - StandardScaler
   - Librosa (Audio feature extraction)
   - Joblib (Model serialization)
-- AssemblyAI Integration
+- **AssemblyAI Integration**
 
 ### Key Features
 - Voice Detection
@@ -72,11 +82,4 @@ npm start
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-[Specify License - e.g., MIT License]
 
-## 🌟 Support
-Found this project helpful? Consider giving it a star! ⭐
-
-## 📞 Contact
-[Project Maintainer Contact Information]
