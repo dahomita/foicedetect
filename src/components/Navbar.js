@@ -4,8 +4,9 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import logo from "../Assets/logo.png";
 import { Link } from "react-router-dom";
+// import { ACCESS_TOKEN } from "../constant";
 
-function NavBar() {
+function NavBar(props) {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
 
@@ -82,6 +83,16 @@ function NavBar() {
                 style={navLinkStyle}
               >
                 Voice Storage
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item className="SignUpButton">
+              <Nav.Link
+                as={Link}
+                to={props.isLoggedIn ? "/logout" : "/login"}
+                onClick={() => updateExpanded(false)}
+                style={navLinkStyle}
+              >
+                {props.isLoggedIn ? "Log Out" : "Log In"}
               </Nav.Link>
             </Nav.Item>
           </Nav>

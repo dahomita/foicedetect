@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -13,47 +13,52 @@ import Particle from "../Particle";
 import "../../style.css";
 import homeLogo1 from "../../Assets/Group 1533 (1).png";
 import Analysis from "./Analysis";
+import { useNavigate } from "react-router-dom";
 import Reply from "./Reply";
 
-function About() {
+function About(props) {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [isProcessing2, setIsProcessing2] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [tmp, setTmp] = useState("")
+  const [tmp, setTmp] = useState("");
   const [aiAnalysis, setAiAnalysis] = useState("");
-  const [reply, setReply] = useState("")
   //const [isDetectClicked, setIsDetectedClicked] = useState(false);
+
+  useEffect(() => {
+    props.setReply("");
+  }, []);
 
   const speak = (text) => {
     const synth = window.speechSynthesis;
     if (!synth) {
       alert("SpeechSynthesis API is not supported in this browser");
-      return
+      return;
     }
 
     if (synth.speaking) {
       synth.cancel();
       return;
-    };
+    }
 
     const utterThis = new SpeechSynthesisUtterance(text);
 
     utterThis.onend = function (e) {
       console.log("Has finished speaking.");
-    }
+    };
     utterThis.onerror = function (e) {
-      console.log("Has encountered an error while attempting speaking.")
-    }
+      console.log("Has encountered an error while attempting speaking.");
+    };
 
-    synth.speak(utterThis)
-  }
+    synth.speak(utterThis);
+  };
 
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile && uploadedFile.type === "audio/wav") {
       setFile(uploadedFile);
+      props.setFileName(uploadedFile.name);
       setResult("");
       setUploadSuccess(true);
     } else {
@@ -90,17 +95,22 @@ function About() {
       }
 
       const data = await response.json();
+      console.log(data);
 
-      console.log(data.speech_to_text)
-      setTmp(data.speech_to_text)
+      props.setDetectData(data);
+      console.log(props.detectData);
+
+      console.log(data.speech_to_text);
+      setTmp(data.speech_to_text);
 
       // Check for expected response structure
       if (data.result) {
         // setResult(`Detected as: ${data.result}${data.confidence ? ` (Confidence: ${data.confidence.toFixed(2)}%)` : ''} \nUser Guidance: ${data.ai_analysis}`);
         setResult(
-          `Detected as: ${data.result}${data.confidence
-            ? ` (Confidence: ${data.confidence.toFixed(2)}%)`
-            : "Confidence currently not available for display."
+          `Detected as: ${data.result}${
+            data.confidence
+              ? ` (Confidence: ${data.confidence.toFixed(2)}%)`
+              : "Confidence currently not available for display."
           }`
         );
         setAiAnalysis(data.ai_analysis);
@@ -131,6 +141,12 @@ function About() {
     fileInputRef.current.click(); // Trigger the file input click event
   };
 
+  const navigate = useNavigate();
+  const handleSaveResults = () => {
+    // navigate("/saveresults");
+    navigate("/test");
+  };
+
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Click here if you're hesitant to answer the call
@@ -139,7 +155,7 @@ function About() {
 
   const handleRespond = async () => {
     setIsProcessing2(true);
-    setReply("Generating Reply..."); // Clear previous results
+    props.setReply("Generating Reply..."); // Clear previous results
 
     try {
       const response = await fetch("http://localhost:8000/api/reply/", {
@@ -158,24 +174,25 @@ function About() {
       }
 
       const data = await response.json();
-      setReply(data.reply);
+      props.setReply(data.reply);
     } catch (error) {
       console.error("Error during reply generation:", error);
 
       if (error.message.includes("Failed to fetch")) {
-        setReply(
+        props.setReply(
           "Unable to connect to the server. Please check your network connection."
         );
       } else if (error.message.includes("HTTP error")) {
-        setReply(`Server error: ${error.message}`);
+        props.setReply(`Server error: ${error.message}`);
       } else {
-        setReply("An unexpected error occurred during response generation.");
+        props.setReply(
+          "An unexpected error occurred during response generation."
+        );
       }
     } finally {
       setIsProcessing2(false);
     }
   };
-
 
   return (
     <Container fluid className="foicedetect-section">
@@ -275,22 +292,42 @@ function About() {
 
             {/* <div style = {{ margin: "30px", textAlign: "center"}}> */}
             {/* <OverlayTrigger placement = "top" overlay={renderTooltip}>   */}
-            <Button
-              className="response-button"
-              onClick={handleRespond}
-            >
-              {isProcessing2 ? (
-                <Spinner animation="border" size="sm" />
-              ) : (
-                "FAKE VOICE? Here's How To Respond"
-              )}
-            </Button>
-            {reply && (
-              <Button className="response-button" onClick={(e) => speak(reply)}>Read Aloud</Button>
+            {result && (
+              <Button className="response-button" onClick={handleRespond}>
+                {isProcessing2 ? (
+                  <Spinner animation="border" size="sm" />
+                ) : (
+                  <>
+                    {props.reply
+                      ? "Generate Another Response?"
+                      : "FAKE VOICE? Here's How To Respond"}
+                  </>
+                )}
+              </Button>
+            )}
+            {props.reply != "" && !isProcessing2 && (
+              <Button
+                style={{ marginLeft: "3em" }}
+                className="response-button"
+                onClick={(e) => speak(props.reply)}
+              >
+                Read Aloud
+              </Button>
             )}
 
-            {reply && !isProcessing2 && (
-              <Reply reply={reply}/>
+            {props.reply != "" && !isProcessing2 && (
+              <Reply reply={props.reply} />
+            )}
+
+            {result && (
+              <Button
+                className="response-button"
+                variant="primary"
+                onClick={handleSaveResults}
+                style={{ marginTop: "2em", marginLeft: "1em" }}
+              >
+                Save Results
+              </Button>
             )}
 
             {/* </OverlayTrigger> */}
