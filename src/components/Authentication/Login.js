@@ -29,7 +29,7 @@ const LogIn = (props) => {
   return (
     <div className="signup-section">
       <Particle />
-      <div className="signup-form" style={{zIndex: "1000"}}>
+      <div className="signup-form" style={{ zIndex: "1000" }}>
         {/* Toast "Bread" */}
         <div className="signup-items">
           {/* Title */}
@@ -42,7 +42,7 @@ const LogIn = (props) => {
           <Form
             route="/api/token/"
             method="login"
-            // setIsAuthorized={props.setIsAuthorized}
+            setIsLoggedIn={props.setIsLoggedIn}
           />
 
           {/* Sign Up Redirect */}

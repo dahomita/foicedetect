@@ -2,8 +2,8 @@ import { useState } from "react";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constant";
-import "./Form.css"
-function Form({ route, method}) {
+import "./Form.css";
+function Form({ route, method, setIsLoggedIn, isLoggedIn }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,6 +29,7 @@ function Form({ route, method}) {
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+        setIsLoggedIn(true);
         alert("Successfully Logged In!");
         // setIsAuthorized(true);
         navigate("/");
@@ -109,7 +110,9 @@ function Form({ route, method}) {
       {error && <p>{error}</p>}
 
       {/* Submit Button */}
-      <button className="submitButton" type="submit">{name}</button>
+      <button className="submitButton" type="submit">
+        {name}
+      </button>
     </form>
   );
 }

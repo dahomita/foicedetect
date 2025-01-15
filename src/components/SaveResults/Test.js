@@ -12,6 +12,9 @@ const Test = (props) => {
     // .replaceAll(new RegExp("ENDPARAGRAPH!!!", "g"), "")
   );
   const [message, setMessage] = useState("");
+  console.log(props.reply);
+  
+  const [reply, setReply] = useState(props.reply);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +25,7 @@ const Test = (props) => {
     formData.append("result", props.detectData.result);
     formData.append("confidence", props.detectData.confidence);
     formData.append("details", details);
+    formData.append("reply", reply);
 
     try {
       const token = localStorage.getItem(ACCESS_TOKEN);
@@ -86,6 +90,11 @@ const Test = (props) => {
           name="details"
           value={details}
           onChange={(e) => setDetails(e.target.value)}
+        ></textarea>
+        <textarea
+          name="reply"
+          value={reply}
+          onChange={(e) => setReply(e.target.value)}
         ></textarea>
         <button type="submit">Upload</button>
       </form>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
-import About from "./components/Fakevoicedetect/Fakevoicedetect";
-import Projects from "./components/Projects/Projects";
+import Fakevoicedetect from "./components/Fakevoicedetect/Fakevoicedetect";
+import VoiceStorage from "./components/VoiceStorage/VoiceStorage";
 import Footer from "./components/Footer";
 import {
   BrowserRouter as Router,
@@ -21,11 +21,17 @@ import AccountDeletion from "./components/Authentication/Delete";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./components/Authentication/Profile";
 import Test from "./components/SaveResults/Test";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constant";
+import Logout from "./components/Authentication/Logout";
 
 function App() {
   const [load, upadateLoad] = useState(true);
   const [detectData, setDetectData] = useState({});
   const [fileName, setFileName] = useState("");
+  const [reply, setReply] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem(ACCESS_TOKEN) ? true : false
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -38,19 +44,21 @@ function App() {
   return (
     <Router>
       <div className="App" id={load ? "no-scroll" : "scroll"}>
-        <Navbar />
+        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/project" element={<Projects />} />
+          <Route path="/voiceStorage" element={<VoiceStorage />} />
           <Route
             path="/fakevoicedetect"
             element={
-              <About
+              <Fakevoicedetect
                 detectData={detectData}
                 setDetectData={setDetectData}
                 fileName={fileName}
                 setFileName={setFileName}
+                reply={reply}
+                setReply={setReply}
               />
             }
           />
@@ -62,11 +70,24 @@ function App() {
                 setDetectData={setDetectData}
                 fileName={fileName}
                 setFileName={setFileName}
+                reply={reply}
+                setReply={setReply}
               />
             }
           />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
+          <Route
+            path="/login"
+            element={
+              <LogIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            }
+          />
+          <Route
+            path="/logout"
+            element={
+              <Logout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            }
+          />
           {/* <Route
             path="/delete"
             element={
@@ -92,6 +113,8 @@ function App() {
                   setDetectData={setDetectData}
                   fileName={fileName}
                   setFileName={setFileName}
+                  reply={reply}
+                  setReply={setReply}
                 />
               </ProtectedRoute>
             }

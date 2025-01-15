@@ -4,8 +4,9 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import logo from "../Assets/logo.png";
 import { Link } from "react-router-dom";
+// import { ACCESS_TOKEN } from "../constant";
 
-function NavBar() {
+function NavBar(props) {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
 
@@ -77,7 +78,7 @@ function NavBar() {
             <Nav.Item>
               <Nav.Link
                 as={Link}
-                to="/project"
+                to="/voiceStorage"
                 onClick={() => updateExpanded(false)}
                 style={navLinkStyle}
               >
@@ -87,16 +88,15 @@ function NavBar() {
             <Nav.Item className="SignUpButton">
               <Nav.Link
                 as={Link}
-                to="/login"
+                to={props.isLoggedIn ? "/logout" : "/login"}
                 onClick={() => updateExpanded(false)}
                 style={navLinkStyle}
               >
-                Log In
+                {props.isLoggedIn ? "Log Out" : "Log In"}
               </Nav.Link>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
-        
       </Container>
     </Navbar>
   );

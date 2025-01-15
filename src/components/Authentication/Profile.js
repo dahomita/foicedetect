@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../../api"; // Your Axios instance
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constant";
+import "./Profile.css"; // CSS file for styles
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -21,48 +22,46 @@ const Profile = () => {
     fetchUserProfile();
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem(REFRESH_TOKEN);
+    window.location.href = "/"; // Simple redirect
+  };
+
   if (loading) {
     return (
-      <div className="h-screen bg-yellow-50 flex items-center justify-center">
-        <div className="text-4xl font-bold text-yellow-800">Loading...</div>
+      <div className="loading-screen">
+        <div className="loading-text">Loading...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="h-screen bg-yellow-50 flex items-center justify-center">
-        <div className="text-xl text-red-600">{error}</div>
+      <div className="error-screen">
+        <div className="error-text">{error}</div>
       </div>
     );
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.removeItem(REFRESH_TOKEN);
-    // setIsAuthorized(false);
-    window.location.href = "/"; // Simple redirect
-  };
-
   return (
-    <div className="bg-yellow-50 h-auto px-24 py-8">
-      <div className="rounded-xl bg-white shadow-md px-10 py-8 space-y-4">
-        <h1 className="text-3xl font-bold text-yellow-800">User Profile</h1>
-        <div className="space-y-2 text-lg">
-          <p className="text-gray-800">
-            <span className="font-semibold text-yellow-700">User ID:</span>{" "}
-            {user?.id}
+    <div className="profile-container">
+      <div className="profile-card">
+        <h1 className="profile-title">User Profile</h1>
+        <div className="profile-details">
+          <p>
+            <span className="label">User ID:</span> {user?.id}
           </p>
-          <p className="text-gray-800">
-            <span className="font-semibold text-yellow-700">Username:</span>{" "}
-            {user?.username}
+          <p>
+            <span className="label">Username:</span> {user?.username}
           </p>
-          <p className="text-gray-800">
-            <span className="font-semibold text-yellow-700">Email:</span>{" "}
-            {user?.email}
+          <p>
+            <span className="label">Email:</span> {user?.email}
           </p>
         </div>
-        <button onClick={handleLogout}>Log out</button>
+        <button className="logout-button" onClick={handleLogout}>
+          Log out
+        </button>
       </div>
     </div>
   );

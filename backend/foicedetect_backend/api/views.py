@@ -75,6 +75,7 @@ class SaveDetectionDocumentView(APIView):
     is_genuine = request.data.get("result")
     confidence_score = request.data.get("confidence")
     ai_analysis = request.data.get("details")
+    reply = request.data.get("reply")
 
     # Validate the presence of required data
 
@@ -101,7 +102,8 @@ class SaveDetectionDocumentView(APIView):
             recording_name=recording_name,
             is_genuine=is_genuine,
             confidence_score=confidence_score,
-            ai_analysis=ai_analysis
+            ai_analysis=ai_analysis,
+            reply=reply
             # file=file
         )
         serializer = DetectionDocumentSerializer(document)

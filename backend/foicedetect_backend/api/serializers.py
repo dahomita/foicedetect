@@ -32,4 +32,4 @@ class DetectionDocumentSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = DetectionDocument
-    fields = ['id', 'name', 'recording_name', 'is_genuine', 'confidence_score', 'ai_analysis', 'user']  # Add or remove fields as needed
+    fields = ['id', 'name', 'recording_name', 'is_genuine', 'confidence_score', 'ai_analysis', 'user', 'reply']  # Add or remove fields as needed
