@@ -2,17 +2,19 @@
 
 ## Project Overview
 
-FoiceDetect is an advanced machine learning project designed to detect fake voices and provide users with effective solutions to prevent scams. With the rise of AI-generated voice scams, FoiceDetect empowers individuals to stay secure by identifying synthetic voices and offering practical tips to protect themselves.
+We developed Fake Voice Detect, a platform leveraging Nebius AI to identify fake voices (deepfakes) and protect users from scams. As scammers increasingly use AI-generated voices to impersonate friends and request money, our platform evaluates how fake a voice is, provides Nebius AI-driven cybersecurity solutions, and even suggests humorous responses to outsmart scammers. Additionally, we securely store information for future use, including reports, evidence, and identification, empowering users to stay safe and take action against fraud.
 
-Tracks: 
+## Tracks: 
 - Cybersecurity Track (WithSandra) $325
 - Most Technically Impressive - Modal (Series A company) $2,000 credits grand prize
 - Nethenoob spinning cat ($65 cash)
- - Nebius Exploratory Use of LLMs and Vision Models:
+- Nebius Exploratory Use of LLMs and Vision Models:
     - 1st Place: $2,000 credits
     - 2nd Place: $1,000 credits
     - 3rd Place: $500 credits
 - $1625 CASH (STATSIG GRAND PRIZE)
+- Magic loops $325 CASH
+- Beginner tracks (20 winners) ($10 each credits) 
 
 ## 🚀 Technologies Stack
 
