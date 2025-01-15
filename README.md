@@ -64,7 +64,7 @@ cd backend
 python -m venv venv
 venv\Scripts\activate
 cd foicedetect_backend
-pip install -r requirement.txt
+pip install -r requirements.txt
 pip install assemblyai
 python manage.py makemigrations
 python manage.py migrate
