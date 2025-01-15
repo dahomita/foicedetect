@@ -7,4 +7,5 @@ urlpatterns = [
     # path('save_detection_document/', views.save_detection_document, name='save_detection_document')
     # path('save_detection_document/', SaveDetectionDocument.as_view(), name='save_detection_document')
     path('reply/', views.reply, name='reply'),
+    
 ]
