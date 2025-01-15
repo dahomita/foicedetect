@@ -13,14 +13,42 @@ import Particle from "../Particle";
 import "../../style.css";
 import homeLogo1 from "../../Assets/Group 1533 (1).png";
 import Analysis from "./Analysis";
+import Reply from "./Reply";
 
 function About() {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessing2, setIsProcessing2] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [tmp, setTmp] = useState("")
   const [aiAnalysis, setAiAnalysis] = useState("");
+  const [reply, setReply] = useState("")
   //const [isDetectClicked, setIsDetectedClicked] = useState(false);
+
+  const speak = (text) => {
+    const synth = window.speechSynthesis;
+    if (!synth) {
+      alert("SpeechSynthesis API is not supported in this browser");
+      return
+    }
+
+    if (synth.speaking) {
+      synth.cancel();
+      return;
+    };
+
+    const utterThis = new SpeechSynthesisUtterance(text);
+
+    utterThis.onend = function (e) {
+      console.log("Has finished speaking.");
+    }
+    utterThis.onerror = function (e) {
+      console.log("Has encountered an error while attempting speaking.")
+    }
+
+    synth.speak(utterThis)
+  }
 
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
@@ -63,14 +91,16 @@ function About() {
 
       const data = await response.json();
 
+      console.log(data.speech_to_text)
+      setTmp(data.speech_to_text)
+
       // Check for expected response structure
       if (data.result) {
         // setResult(`Detected as: ${data.result}${data.confidence ? ` (Confidence: ${data.confidence.toFixed(2)}%)` : ''} \nUser Guidance: ${data.ai_analysis}`);
         setResult(
-          `Detected as: ${data.result}${
-            data.confidence
-              ? ` (Confidence: ${data.confidence.toFixed(2)}%)`
-              : "Confidence currently not available for display."
+          `Detected as: ${data.result}${data.confidence
+            ? ` (Confidence: ${data.confidence.toFixed(2)}%)`
+            : "Confidence currently not available for display."
           }`
         );
         setAiAnalysis(data.ai_analysis);
@@ -106,6 +136,46 @@ function About() {
       Click here if you're hesitant to answer the call
     </Tooltip>
   );
+
+  const handleRespond = async () => {
+    setIsProcessing2(true);
+    setReply("Generating Reply..."); // Clear previous results
+
+    try {
+      const response = await fetch("http://localhost:8000/api/reply/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ transcript: tmp }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorText}`
+        );
+      }
+
+      const data = await response.json();
+      setReply(data.reply);
+    } catch (error) {
+      console.error("Error during reply generation:", error);
+
+      if (error.message.includes("Failed to fetch")) {
+        setReply(
+          "Unable to connect to the server. Please check your network connection."
+        );
+      } else if (error.message.includes("HTTP error")) {
+        setReply(`Server error: ${error.message}`);
+      } else {
+        setReply("An unexpected error occurred during response generation.");
+      }
+    } finally {
+      setIsProcessing2(false);
+    }
+  };
+
 
   return (
     <Container fluid className="foicedetect-section">
@@ -207,12 +277,22 @@ function About() {
             {/* <OverlayTrigger placement = "top" overlay={renderTooltip}>   */}
             <Button
               className="response-button"
-              onClick={() => {
-                console.log("Clicked");
-              }}
+              onClick={handleRespond}
             >
-              FAKE VOICE? Here's How To Response
+              {isProcessing2 ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                "FAKE VOICE? Here's How To Respond"
+              )}
             </Button>
+            {reply && (
+              <Button className="response-button" onClick={(e) => speak(reply)}>Read Aloud</Button>
+            )}
+
+            {reply && !isProcessing2 && (
+              <Reply reply={reply}/>
+            )}
+
             {/* </OverlayTrigger> */}
             {/* </div> */}
           </Col>

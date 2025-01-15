@@ -1,12 +1,17 @@
 import os
 import traceback
 from django.http import JsonResponse
+from rest_framework.response import Response
+
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 
 # Direct import from the same directory
 from .predict import analyze_audio
 from .text_generate import transcribe_audio, generate_analysis
+from .reply import generate_hilarious_reply
+
+import json
 
 @csrf_exempt
 def detect_audio(request):
@@ -78,4 +83,25 @@ def detect_audio(request):
                 'traceback': traceback.format_exc()
             }, status=500)
     
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+    return JsonResponse({'error': 'Method not allowed'},  status=405)
+
+@csrf_exempt
+def reply(request):
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body.decode("utf-8"))
+            transcript = body.get("transcript", "")
+            
+            if not transcript:
+                return JsonResponse({"error": "Transcript is required"}, status=400)
+            
+            # Generate a response using your custom function
+            reply = generate_hilarious_reply(transcript)
+
+            print(reply)
+            
+            return JsonResponse({"reply": reply}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
