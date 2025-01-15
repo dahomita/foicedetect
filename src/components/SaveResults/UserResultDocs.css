@@ -31,7 +31,7 @@
 
 .inset-shadow {
   position: relative;
-  background: #ffffff; /* Optional background */
+  background: #ffffff; 
 }
 
 .inset-shadow::after {
@@ -40,13 +40,13 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 10rem; /* Adjust height to control the shadow area */
+  height: 10rem; 
   background: linear-gradient(
     to top,
     rgba(255, 255, 255, 0.6),
     rgba(255, 255, 255, 0)
   );
-  pointer-events: none; /* Ensures the shadow is not interactive */
+  pointer-events: none;
 }
 
 /* Individual Document Card */
@@ -69,6 +69,10 @@
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  height: 35rem;
+  overflow: hidden;
+  position: relative;
 }
 
 .document-card:hover {

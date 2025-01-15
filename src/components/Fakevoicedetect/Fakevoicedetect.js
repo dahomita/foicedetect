@@ -25,13 +25,14 @@ function About(props) {
   const [tmp, setTmp] = useState("");
   const [aiAnalysis, setAiAnalysis] = useState("");
   //const [isDetectClicked, setIsDetectedClicked] = useState(false);
+  const [reading, setReading] = useState(0);
 
   useEffect(() => {
     props.setReply("");
   }, []);
 
+  const synth = window.speechSynthesis;
   const speak = (text) => {
-    const synth = window.speechSynthesis;
     if (!synth) {
       alert("SpeechSynthesis API is not supported in this browser");
       return;
@@ -101,7 +102,11 @@ function About(props) {
       console.log(props.detectData);
 
       console.log(data.speech_to_text);
-      setTmp(data.speech_to_text);
+      setTmp(
+        data.speech_to_text != ""
+          ? data.speech_to_text
+          : "[No Transcript. Audio intelligible.]"
+      );
 
       // Check for expected response structure
       if (data.result) {
@@ -143,7 +148,9 @@ function About(props) {
 
   const navigate = useNavigate();
   const handleSaveResults = () => {
-    navigate("/saveresults");
+    if (!props.isLoggedIn) {
+      alert("You have to Log In before Saving Documents");
+    } else navigate("/saveresults");
     // navigate("/test");
   };
 
@@ -309,9 +316,12 @@ function About(props) {
               <Button
                 style={{ marginLeft: "3em" }}
                 className="response-button"
-                onClick={(e) => speak(props.reply)}
+                onClick={(e) => {
+                  setReading(reading + 1);
+                  speak(props.reply);
+                }}
               >
-                Read Aloud
+                {reading % 2 == 0 ? "Read Aloud" : "Stop Reading"}
               </Button>
             )}
 
@@ -319,7 +329,7 @@ function About(props) {
               <Reply reply={props.reply} />
             )}
 
-            {result && (
+            {result && !isProcessing && !isProcessing2 && (
               <Button
                 className="response-button"
                 variant="primary"

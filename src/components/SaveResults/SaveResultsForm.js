@@ -26,7 +26,7 @@ const SaveResultsForm = (props) => {
       !props.detectData.ai_analysis ||
       !props.detectData.confidence ||
       !props.detectData.result
-    ) { 
+    ) {
       navigate("/fakevoicedetect");
       alert("No results to save. Please upload a recording first!");
     }
@@ -72,6 +72,7 @@ const SaveResultsForm = (props) => {
         const result = await response.json();
         setMessage("File uploaded successfully!");
         console.log("Success:", result);
+        navigate("/documents");
       }
     } catch (error) {
       console.error("Error submitting form:", error);

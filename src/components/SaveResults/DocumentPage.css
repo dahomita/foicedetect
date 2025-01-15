@@ -8,18 +8,28 @@
 }
 
 .single-document-card {
-  background: linear-gradient(
-    135deg,
-    #3a7bd5,
-    #6dd5ed
-  ); /* Gradient matching the document-card */
-  border-radius: 15px; /* Slightly rounded corners */
+  background: linear-gradient(135deg, #3a7bd5, #6dd5ed);
+  border-radius: 15px;
   padding: 30px;
   /* max-width: 900px; */
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Box-shadow for depth */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   min-height: 500px;
-  background-color: #fff; /* Solid background color */
+  background-color: #fff;
+  width: 900px;
+  justify-self: center;
+}
+
+.single-document-card-alt {
+  background: linear-gradient(135deg, #8e44ad, #ff6f61);
+
+  border-radius: 15px;
+  padding: 30px;
+  /* max-width: 900px; */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 500px;
+  background-color: #fff;
   width: 900px;
   justify-self: center;
 }
