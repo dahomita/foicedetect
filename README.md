@@ -58,6 +58,25 @@ git clone https://github.com/dahomita/foicedetect.git
 cd foicedetect
 ```
 
+### API Key Setup
+
+#### Environment Configuration
+
+1. Create a `.env` file in the project root directory
+2. Add the following API keys to the `.env` file:
+
+```
+NEBIUS_API_KEY=eyJhbGciOiJIUzI1NiIsImtpZCI6IlV6SXJWd1h0dnprLVRvdzlLZWstc0M1akptWXBvX1VaVkxUZlpnMDRlOFUiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJnb29nbGUtb2F1dGgyfDExMTY5ODA4MDkyNDAxNzkyMjcxOSIsInNjb3BlIjoib3BlbmlkIG9mZmxpbmVfYWNjZXNzIiwiaXNzIjoiYXBpX2tleV9pc3N1ZXIiLCJhdWQiOlsiaHR0cHM6Ly9uZWJpdXMtaW5mZXJlbmNlLmV1LmF1dGgwLmNvbS9hcGkvdjIvIl0sImV4cCI6MTg5NDY1NTAyMCwidXVpZCI6Ijc2NGNlOTc1LWI4ZjUtNDNkNi1hMTI1LTgzNDQwY2Y5MWVmYSIsIm5hbWUiOiJVbm5hbWVkIGtleSIsImV4cGlyZXNfYXQiOiIyMDMwLTAxLTE0VDIxOjAzOjQwKzAwMDAifQ.UXQkWATEndFFSgnZss62eQ9c7S64AfGLy2qOLJtDKQ8
+ASSEMBLY_API_KEY=e98e3dcc13624e2c846c6de74a34809e
+```
+
+⚠️ **Security Warning:**
+- NEVER commit your `.env` file to version control
+- Add `.env` to your `.gitignore` file to prevent accidental exposure
+- Treat API keys as sensitive credentials
+- Rotate these keys periodically
+- Do not share these keys publicly
+
 ### Backend Setup And Run
 ```bash
 cd backend
@@ -76,7 +95,3 @@ python manage.py runserver
 npm install
 npm start
 ```
-
-
-
-
