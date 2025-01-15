@@ -3,6 +3,7 @@ import api from "../../api"; // Your Axios instance
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constant";
 import "./Profile.css"; // CSS file for styles
 import Particle from "../Particle";
+import DetectionDocuments from "../SaveResults/UserResultDocs";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -49,7 +50,7 @@ const Profile = () => {
   return (
     <div className="profile-container">
       <Particle />
-      <div className="profile-card" style={{zIndex: "1000"}}>
+      <div className="profile-card" style={{ zIndex: "1000" }}>
         <h1 className="profile-title">User Profile</h1>
         <div className="profile-details">
           <p>
@@ -66,6 +67,7 @@ const Profile = () => {
           Log out
         </button>
       </div>
+      <DetectionDocuments source="profile" />
     </div>
   );
 };

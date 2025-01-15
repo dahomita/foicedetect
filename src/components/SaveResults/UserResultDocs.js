@@ -3,6 +3,7 @@ import { ACCESS_TOKEN } from "../../constant";
 import "./UserResultDocs.css";
 import { useNavigate } from "react-router-dom";
 import Particle from "../Particle";
+import { Button } from "react-bootstrap";
 
 const DetectionDocuments = (props) => {
   const [documents, setDocuments] = useState([]);
@@ -65,85 +66,110 @@ const DetectionDocuments = (props) => {
   return (
     <div className="documents-container">
       <Particle />
-      <h1 className="documents-title">Your Detection Documents</h1>
+      <h1
+        className="documents-title"
+        style={{ width: "100%", position: "relative" }}
+      >
+        <span>
+          {props.source === "profile"
+            ? "Your Latest Detection Documents"
+            : "Your Detection Documents"}
+        </span>
+        <span
+          style={{ position: "absolute", right: "2em", cursor: "pointer" }}
+          onClick={() => {
+            navigate("/documents");
+          }}
+        >
+          <span className="view-storage-btn">View Storage</span> &#x2192;
+        </span>
+      </h1>
       <div className="documents-list">
-        {documents.map((doc, id) => (
-          <div
-            key={id}
-            className="document-card inset-shadow"
-            onClick={(e) => {
-              props.setCurId(id + 1);
-              navigate(`/documents/${doc.id}`);
-            }}
-          >
-            <div className="document-header">
-              <h2 className="document-name">{doc.name}</h2>
-              <span className="document-id">#{id + 1}</span>
-            </div>
-            <div className="document-details">
-              <p>
-                <span className="label">Confidence:</span>{" "}
-                <div>{doc.confidence_score}</div>
-              </p>
-              <p>
-                <span className="label">File Name:</span>{" "}
-                <div>{doc.recording_name}</div>
-              </p>
-              <p>
-                <span className="label">AI Analysis: </span>
-                {doc.ai_analysis ? (
-                  <>
-                    <div
-                      style={{
-                        boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.55)",
-                        maxHeight: "15rem",
-                      }}
-                    >
+        {documents.map((doc, id) => {
+          if (props.source === "profile" && id < documents.length - 3) return;
+          return (
+            <abbr
+              title="Click to see Document Details"
+              style={{ textDecoration: "none" }}
+            >
+              <div
+                key={id}
+                className="document-card inset-shadow"
+                onClick={(e) => {
+                  props.setCurId(id + 1);
+                  navigate(`/documents/${doc.id}`);
+                }}
+              >
+                <div className="document-header">
+                  <h2 className="document-name">{doc.name}</h2>
+                  <span className="document-id">#{id + 1}</span>
+                </div>
+                <div className="document-details">
+                  <p>
+                    <span className="label">Confidence:</span>{" "}
+                    <div>{doc.confidence_score}</div>
+                  </p>
+                  <p>
+                    <span className="label">File Name:</span>{" "}
+                    <div>{doc.recording_name}</div>
+                  </p>
+                  <p>
+                    <span className="label">AI Analysis: </span>
+                    {doc.ai_analysis ? (
+                      <>
+                        <div
+                          style={{
+                            boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.55)",
+                            maxHeight: "15rem",
+                          }}
+                        >
+                          <div
+                            style={{
+                              maxHeight: "15rem",
+                              overflowY: "auto",
+                              padding: "1rem",
+                            }}
+                          >
+                            {doc.ai_analysis}
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div>No analysis generated.</div>
+                    )}
+                  </p>
+                  <p>
+                    <span className="label">Reply:</span>
+                    {doc.reply ? (
                       <div
                         style={{
+                          boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.55)",
                           maxHeight: "15rem",
-                          overflowY: "auto",
-                          padding: "1rem",
                         }}
                       >
-                        {doc.ai_analysis}
+                        <div
+                          style={{
+                            maxHeight: "15rem",
+                            overflowY: "auto",
+                            padding: "1rem",
+                          }}
+                        >
+                          {doc.reply}
+                        </div>
                       </div>
-                    </div>
-                  </>
-                ) : (
-                  <div>No analysis generated.</div>
-                )}
-              </p>
-              <p>
-                <span className="label">Reply:</span>
-                {doc.reply ? (
-                  <div
-                    style={{
-                      boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.55)",
-                      maxHeight: "15rem",
-                    }}
-                  >
-                    <div
-                      style={{
-                        maxHeight: "15rem",
-                        overflowY: "auto",
-                        padding: "1rem",
-                      }}
-                    >
-                      {doc.reply}
-                    </div>
-                  </div>
-                ) : (
-                  <div>No reply generated.</div>
-                )}
-              </p>
-              <p>
-                <span className="label">Created At:</span>{" "}
-                <div>{new Date(doc.created_at).toLocaleString()}</div>
-              </p>
-            </div>
-          </div>
-        ))}
+                    ) : (
+                      <div>No reply generated.</div>
+                    )}
+                  </p>
+                  <p>
+                    <span className="label">Created At:</span>{" "}
+                    <div>{new Date(doc.created_at).toLocaleString()}</div>
+                  </p>
+                </div>
+              </div>
+            </abbr>
+          );
+        })}
       </div>
     </div>
   );

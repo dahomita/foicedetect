@@ -58,7 +58,7 @@ const DocumentPage = (props) => {
       <Button
         className="response-button single-document-btn"
         onClick={() => {
-          navigate("/profile/documents");
+          navigate("/documents");
         }}
       >
         Back To Storage

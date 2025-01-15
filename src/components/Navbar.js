@@ -107,7 +107,7 @@ function NavBar(props) {
             <Nav.Item>
               <Nav.Link
                 as={Link}
-                to="/profile/documents"
+                to="/documents"
                 onClick={() => updateExpanded(false)}
                 style={navLinkStyle}
               >

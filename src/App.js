@@ -162,7 +162,7 @@ function App() {
             }
           /> */}
           <Route
-            path="profile/documents"
+            path="/documents"
             element={<DetectionDocuments curId={curId} setCurId={setCurId} />}
           />
           <Route
