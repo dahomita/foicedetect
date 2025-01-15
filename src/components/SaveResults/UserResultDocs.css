@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: white;
+  color: #171B1D;
 }
 
 .view-storage-btn:hover {
@@ -17,6 +17,7 @@
 .documents-title {
   font-size: 2rem;
   margin-bottom: 20px;
+  color: #fff;
 }
 
 /* Document List */
@@ -31,7 +32,7 @@
 
 .inset-shadow {
   position: relative;
-  background: #ffffff; /* Optional background */
+ 
 }
 
 .inset-shadow::after {
@@ -41,18 +42,13 @@
   left: 0;
   right: 0;
   height: 10rem; /* Adjust height to control the shadow area */
-  background: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0)
-  );
   pointer-events: none; /* Ensures the shadow is not interactive */
 }
 
 /* Individual Document Card */
 
 .document-card {
-  background: linear-gradient(135deg, #3a7bd5, #6dd5ed);
+  background-color: #fff;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -64,7 +60,7 @@
 }
 
 .document-card-alt {
-  background: linear-gradient(135deg, #8e44ad, #ff6f61);
+  background: linear-gradient(135deg, #40484c, #171B1D);
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -87,14 +83,14 @@
 .document-name {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #fff;
+  color: #171B1D;
   margin: 0;
   text-decoration: underline;
 }
 
 .document-id {
   font-size: 1rem;
-  color: #dcdcdc;
+  color: #171B1D;
   background-color: rgba(0, 0, 0, 0.55);
   padding: 5px 10px;
   border-radius: 5px;
@@ -108,5 +104,5 @@
 
 .label {
   font-weight: bold;
-  color: #f0f8ff;
+  color: #171B1D !important;
 }
