@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Container,
   Row,
@@ -17,6 +17,71 @@ import { useNavigate } from "react-router-dom";
 import Reply from "./Reply";
 import axios from "axios"; // Import axios
 
+// Utility function to convert AudioBuffer to WAV
+function audioBufferToWav(buffer) {
+  const numChannels = buffer.numberOfChannels;
+  const sampleRate = buffer.sampleRate;
+  const format = 1; // PCM
+  const bitDepth = 16;
+  
+  const bytesPerSample = bitDepth / 8;
+  const blockAlign = numChannels * bytesPerSample;
+  
+  const dataLength = buffer.length * blockAlign;
+  const bufferLength = 44 + dataLength;
+  
+  const arrayBuffer = new ArrayBuffer(bufferLength);
+  const view = new DataView(arrayBuffer);
+  
+  // RIFF identifier
+  writeString(view, 0, 'RIFF');
+  // file length minus RIFF identifier length and file description length
+  view.setUint32(4, bufferLength - 8, true);
+  // RIFF type
+  writeString(view, 8, 'WAVE');
+  // format chunk identifier
+  writeString(view, 12, 'fmt ');
+  // format chunk length
+  view.setUint32(16, 16, true);
+  // sample format (raw)
+  view.setUint16(20, format, true);
+  // channel count
+  view.setUint16(22, numChannels, true);
+  // sample rate
+  view.setUint32(24, sampleRate, true);
+  // byte rate (sample rate * block align)
+  view.setUint32(28, sampleRate * blockAlign, true);
+  // block align (channel count * bytes per sample)
+  view.setUint16(32, blockAlign, true);
+  // bits per sample
+  view.setUint16(34, bitDepth, true);
+  // data chunk identifier
+  writeString(view, 36, 'data');
+  // data chunk length
+  view.setUint32(40, dataLength, true);
+
+  const channels = [];
+  for (let i = 0; i < numChannels; i++) {
+    channels.push(buffer.getChannelData(i));
+  }
+
+  let offset = 44;
+  for (let i = 0; i < buffer.length; i++) {
+    for (let channel = 0; channel < numChannels; channel++) {
+      const sample = Math.max(-1, Math.min(1, channels[channel][i]));
+      view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+      offset += 2;
+    }
+  }
+
+  return arrayBuffer;
+}
+
+function writeString(view, offset, string) {
+  for (let i = 0; i < string.length; i++) {
+    view.setUint8(offset + i, string.charCodeAt(i));
+  }
+}
 
 function About(props) {
   const [file, setFile] = useState(null);
@@ -28,6 +93,10 @@ function About(props) {
   const [aiAnalysis, setAiAnalysis] = useState("");
   //const [isDetectClicked, setIsDetectedClicked] = useState(false);
   const [reading, setReading] = useState(0);
+  const [isRecording, setIsRecording] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const mediaRecorder = useRef(null);
+  const audioChunks = useRef([]);
 
   useEffect(() => {
     props.setReply("");
@@ -203,9 +272,75 @@ function About(props) {
     }
   };
 
+  const handleRecording = async () => {
+    if (!isRecording) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          audio: {
+            channelCount: 1,         // Mono audio
+            sampleRate: 44100,       // Standard sample rate
+            sampleSize: 16           // 16-bit audio
+          } 
+        });
+        
+        mediaRecorder.current = new MediaRecorder(stream, {
+          mimeType: 'audio/webm'  // Use webm first, we'll convert to WAV when downloading
+        });
+        audioChunks.current = [];
+
+        mediaRecorder.current.ondataavailable = (event) => {
+          audioChunks.current.push(event.data);
+        };
+
+        mediaRecorder.current.onstop = () => {
+          setShowPopup(true);
+        };
+
+        mediaRecorder.current.start();
+        setIsRecording(true);
+      } catch (err) {
+        console.error("Error accessing microphone:", err);
+        alert("Error accessing microphone. Please ensure you have given permission.");
+      }
+    } else {
+      mediaRecorder.current.stop();
+      setIsRecording(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    // Convert to WAV using Web Audio API
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const blob = new Blob(audioChunks.current, { type: 'audio/webm' });
+    const arrayBuffer = await blob.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    
+    // Create WAV file
+    const wavBuffer = audioBufferToWav(audioBuffer);
+    const wavBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+    
+    // Create a File object from the Blob
+    const wavFile = new File([wavBlob], 'recording.wav', { type: 'audio/wav' });
+    
+    // Set the file for detection
+    setFile(wavFile);
+    props.setFileName('recording.wav');
+    setUploadSuccess(true);
+    
+    // Download the file
+    const audioUrl = URL.createObjectURL(wavBlob);
+    const link = document.createElement('a');
+    link.href = audioUrl;
+    link.download = 'recording.wav';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setShowPopup(false);
+  };
+
   return (
-    <Container fluid className="foicedetect-section">
-      <Particle />
+    <Container fluid className="foicedetect-section" style={{ position: 'relative' }}>
+      <Particle style={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }} />
       <Container>
         <Row style={{ justifyContent: "center", padding: "10px" }}>
           <Col
@@ -327,7 +462,7 @@ function About(props) {
               </Button>
             )}
 
-            {props.reply != "" && !isProcessing2 && (
+            {props.reply !== "" && !isProcessing2 && (
               <Reply reply={props.reply} />
             )}
 
@@ -346,6 +481,71 @@ function About(props) {
 
             {/* </OverlayTrigger> */}
             {/* </div> */}
+
+            <button 
+              onClick={handleRecording}
+              style={{
+                backgroundColor: isRecording ? 'red' : 'green',
+                color: 'white',
+                padding: '10px 20px',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                margin: '10px',
+                position: 'relative',
+                zIndex: 1000,
+                display: 'block'
+              }}
+            >
+              {isRecording ? 'Stop Recording' : 'Start Recording'}
+            </button>
+
+            {/* Download Popup */}
+            {showPopup && (
+              <div style={{
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                backgroundColor: 'white',
+                padding: '20px',
+                borderRadius: '10px',
+                boxShadow: '0 0 10px rgba(0,0,0,0.2)',
+                textAlign: 'center',
+                zIndex: 1001
+              }}>
+                <h3>Recording Complete!</h3>
+                <p>Click below to save your file.</p>
+                <button
+                  onClick={handleDownload}
+                  style={{
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    padding: '8px 16px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    margin: '5px'
+                  }}
+                >
+                  Download
+                </button>
+                <button
+                  onClick={() => setShowPopup(false)}
+                  style={{
+                    backgroundColor: '#6c757d',
+                    color: 'white',
+                    padding: '8px 16px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    margin: '5px'
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            )}
           </Col>
         </Row>
       </Container>
