@@ -631,6 +631,14 @@ h3 {
   color: white !important;
 }
 
+.record-button {
+  border: none;
+  padding: 20px;
+  cursor: pointer;
+  border-radius: 100px;
+  filter: drop-shadow(4px 4px 4px black);
+}
+
 .tech-icons {
   font-size: 4.5em !important;
   margin: 15px !important;
