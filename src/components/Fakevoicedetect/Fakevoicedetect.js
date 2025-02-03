@@ -16,6 +16,7 @@ import Analysis from "./Analysis";
 import { useNavigate } from "react-router-dom";
 import Reply from "./Reply";
 import axios from "axios"; // Import axios
+import Micro from "../../Assets/micro.png";
 
 // Utility function to convert AudioBuffer to WAV
 function audioBufferToWav(buffer) {
@@ -412,18 +413,47 @@ function About(props) {
               </div>
             )}
 
-            <Button
-              className="detect-button"
-              variant="primary"
-              onClick={handleDetect}
-              disabled={isProcessing || !file}
-            >
-              {isProcessing ? (
-                <Spinner animation="border" size="sm" />
-              ) : (
-                "Detect"
-              )}
-            </Button>
+            <Col style={{ 
+              justifyContent: "center", 
+              padding: "10px", 
+              display: "flex", 
+              flexDirection: "column", 
+              alignItems: "center", 
+              gap: "10px" 
+            }}>
+              <button 
+                onClick={handleRecording}
+                style={{
+                  backgroundColor: isRecording ? '#CF3038' : '#2f5233',
+                  width: "auto",
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "16px"
+                }}
+                className="record-button"
+              >
+                {isRecording ? 'STOP' : <img src={Micro} className="micro-button"/>}
+              </button>
+
+              <Button
+                className="detect-button"
+                variant="primary"
+                onClick={handleDetect}
+                disabled={isProcessing || !file}
+                style={{
+                  width: "auto",
+                  minWidth: "150px",
+                  padding: "8px 20px"
+                }}
+              >
+                {isProcessing ? (
+                  <Spinner animation="border" size="sm" />
+                ) : (
+                  "Detect"
+                )}
+              </Button>
+            </Col>
+            
 
             {result && (
               <div className="mt-3">
@@ -482,24 +512,6 @@ function About(props) {
             {/* </OverlayTrigger> */}
             {/* </div> */}
 
-            <button 
-              onClick={handleRecording}
-              style={{
-                backgroundColor: isRecording ? 'red' : 'green',
-                color: 'white',
-                padding: '10px 20px',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                margin: '10px',
-                position: 'relative',
-                zIndex: 1000,
-                display: 'block'
-              }}
-            >
-              {isRecording ? 'Stop Recording' : 'Start Recording'}
-            </button>
-
             {/* Download Popup */}
             {showPopup && (
               <div style={{
@@ -508,14 +520,15 @@ function About(props) {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 backgroundColor: 'white',
+                color: 'black',
                 padding: '20px',
                 borderRadius: '10px',
                 boxShadow: '0 0 10px rgba(0,0,0,0.2)',
                 textAlign: 'center',
                 zIndex: 1001
               }}>
-                <h3>Recording Complete!</h3>
-                <p>Click below to save your file.</p>
+                <p style={{fontSize: "17px", fontWeight: "bold"}}>RECORDING COMPLETE!</p>
+                <p style={{fontSize: "15px"}}>Click below to save your file.</p>
                 <button
                   onClick={handleDownload}
                   style={{
