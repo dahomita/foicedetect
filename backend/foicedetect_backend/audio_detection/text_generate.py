@@ -88,7 +88,7 @@ def generate_analysis(speech_to_text_output, classification_result):
 # Speech-to-Text Function
 
 def transcribe_audio(audio_file):
-    aai.settings.api_key = os.getenv('ASSEMBLY_API_KEY')
+    aai.settings.api_key = 'd4a9545191d0413097e84929db1df273'
     transcriber = aai.Transcriber()
 
     if aai.settings.api_key:

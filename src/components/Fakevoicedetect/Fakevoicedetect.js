@@ -15,7 +15,6 @@ import homeLogo1 from "../../Assets/Group 1533 (1).png";
 import Analysis from "./Analysis";
 import { useNavigate } from "react-router-dom";
 import Reply from "./Reply";
-import axios from "axios"; // Import axios
 import Micro from "../../Assets/micro.png";
 
 // Utility function to convert AudioBuffer to WAV
@@ -419,20 +418,33 @@ function About(props) {
               display: "flex", 
               flexDirection: "column", 
               alignItems: "center", 
-              gap: "10px" 
+              gap: "20px" 
             }}>
               <button 
                 onClick={handleRecording}
                 style={{
                   backgroundColor: isRecording ? '#CF3038' : '#2f5233',
-                  width: "auto",
+                  width: "60px",
+                  height: "60px",
                   color: "white",
                   fontWeight: "bold",
-                  fontSize: "16px"
+                  fontSize: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
                 }}
                 className="record-button"
               >
-                {isRecording ? 'STOP' : <img src={Micro} className="micro-button"/>}
+                {isRecording ? 'STOP' : <img 
+                  src={Micro} 
+                  className="micro-button"
+                  alt="Record audio" 
+                  style={{ 
+                    width: "25px",
+                    height: "25px",
+                    margin: "0"
+                  }}
+                />}
               </button>
 
               <Button
