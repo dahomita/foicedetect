@@ -4,7 +4,13 @@ from openai import OpenAI
 import assemblyai as aai
 
 # Load environment variables from .env file
-load_dotenv()
+# Get the absolute path to the root directory (where .env is located)
+root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+env_path = os.path.join(root_dir, '.env')
+load_dotenv(env_path)
+
+# Debug print to check if env vars are loaded
+print("Available environment variables:", os.environ.keys())
 
 # Get the API key from environment variables
 # api_key = os.getenv('OPENAI_API_KEY')
@@ -88,14 +94,30 @@ def generate_analysis(speech_to_text_output, classification_result):
 # Speech-to-Text Function
 
 def transcribe_audio(audio_file):
-    aai.settings.api_key = 'd4a9545191d0413097e84929db1df273'
-    transcriber = aai.Transcriber()
+    try:
+        # Try both environment variable names
+        api_key = os.getenv('ASSEMBLYAI_API_KEY') or os.getenv('ASSEMBLY_API_KEY')
+        if not api_key:
+            print("Error: AssemblyAI API key not found in environment variables")
+            print(f"Checking .env file at: {env_path}")
+            return ""
+            
+        print(f"API Key found: {api_key[:8]}...")  # Print first 8 chars for verification
+        aai.settings.api_key = api_key
+        transcriber = aai.Transcriber()
 
-    if aai.settings.api_key:
-        print(aai.settings.api_key)
-
-    transcript = transcriber.transcribe(audio_file)
-    # transcript = transcriber.transcribe("./my-local-audio-file.wav")
-
-    print(transcript.text)
-    return transcript.text
+        # Add debug logging
+        print(f"Attempting to transcribe file: {audio_file}")
+        
+        transcript = transcriber.transcribe(audio_file)
+        
+        if not transcript or not transcript.text:
+            print("Warning: Transcription returned empty result")
+            return ""
+            
+        print(f"Transcription successful: {transcript.text}")
+        return transcript.text
+        
+    except Exception as e:
+        print(f"Error during transcription: {str(e)}")
+        return ""

@@ -100,6 +100,29 @@ function About(props) {
 
   useEffect(() => {
     props.setReply("");
+    
+    // Check for required browser features and permissions
+    const checkPermissions = async () => {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          console.error("MediaRecorder API not supported in this browser");
+          alert("Audio recording is not supported in this browser. Please use a modern browser like Chrome or Firefox.");
+          return;
+        }
+
+        // Check microphone permission
+        const result = await navigator.permissions.query({ name: 'microphone' });
+        console.log("Microphone permission status:", result.state);
+        
+        if (result.state === 'denied') {
+          alert("Microphone access is blocked. Please allow microphone access in your browser settings.");
+        }
+      } catch (err) {
+        console.error("Error checking permissions:", err);
+      }
+    };
+
+    checkPermissions();
   }, []);
 
   const synth = window.speechSynthesis;
@@ -146,8 +169,7 @@ function About(props) {
     }
 
     setIsProcessing(true);
-    setResult(""); // Clear previous results
-    //setIsDetectedClicked(false);
+    setResult(""); 
 
     try {
       const formData = new FormData();
@@ -158,54 +180,28 @@ function About(props) {
         body: formData,
       });
 
+      const data = await response.json();
+      
+      // Add debug logging
+      console.log("Full API response:", data);
+      
       if (!response.ok) {
-        // Handle HTTP errors
-        const errorText = await response.text();
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorText}`
-        );
+        throw new Error(`API Error: ${data.error}\nTraceback: ${data.traceback}`);
       }
 
-      const data = await response.json();
-      console.log(data);
-
-      props.setDetectData(data);
-      console.log(props.detectData);
-
-      console.log(data.speech_to_text);
-      setTmp(
-        data.speech_to_text != ""
-          ? data.speech_to_text
-          : "[No Transcript. Audio intelligible.]"
-      );
-
-      // Check for expected response structure
+      setTmp(data.speech_to_text || "[No Transcript. Audio unintelligible.]");
+      
       if (data.result) {
-        // setResult(`Detected as: ${data.result}${data.confidence ? ` (Confidence: ${data.confidence.toFixed(2)}%)` : ''} \nUser Guidance: ${data.ai_analysis}`);
-        setResult(
-          `Detected as: ${data.result}${
-            data.confidence
-              ? ` (Confidence: ${data.confidence.toFixed(2)}%)`
-              : "Confidence currently not available for display."
-          }`
-        );
+        setResult(`Detected as: ${data.result}${
+          data.confidence ? ` (Confidence: ${data.confidence.toFixed(2)}%)` : ''
+        }`);
         setAiAnalysis(data.ai_analysis);
       } else {
         throw new Error("Unexpected response format");
       }
     } catch (error) {
-      console.error("Error during detection:", error);
-
-      // Provide user-friendly error messages
-      if (error.message.includes("Failed to fetch")) {
-        setResult(
-          "Unable to connect to the server. Please check your network connection."
-        );
-      } else if (error.message.includes("HTTP error")) {
-        setResult(`Server error: ${error.message}`);
-      } else {
-        setResult("An unexpected error occurred during file detection.");
-      }
+      console.error("Full error details:", error);
+      setResult(`Error: ${error.message}`);
     } finally {
       setIsProcessing(false);
     }
@@ -275,67 +271,104 @@ function About(props) {
   const handleRecording = async () => {
     if (!isRecording) {
       try {
+        // Check supported MIME types
+        const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') 
+          ? 'audio/webm;codecs=opus'
+          : 'audio/webm';
+        
+        console.log("Using MIME type:", mimeType);
+        
         const stream = await navigator.mediaDevices.getUserMedia({ 
           audio: {
-            channelCount: 1,         // Mono audio
-            sampleRate: 44100,       // Standard sample rate
-            sampleSize: 16           // 16-bit audio
+            channelCount: 1,
+            sampleRate: 44100,
+            sampleSize: 16,
+            echoCancellation: true,
+            noiseSuppression: true
           } 
         });
         
+        console.log("Audio stream obtained:", stream);
+        
         mediaRecorder.current = new MediaRecorder(stream, {
-          mimeType: 'audio/webm'  // Use webm first, we'll convert to WAV when downloading
+          mimeType: mimeType
         });
         audioChunks.current = [];
 
         mediaRecorder.current.ondataavailable = (event) => {
+          console.log("Data chunk received:", event.data.size);  // Debug log
           audioChunks.current.push(event.data);
         };
 
         mediaRecorder.current.onstop = () => {
+          console.log("Recording stopped, chunks:", audioChunks.current.length);  // Debug log
           setShowPopup(true);
         };
 
-        mediaRecorder.current.start();
+        mediaRecorder.current.onerror = (event) => {
+          console.error("MediaRecorder error:", event.error);  // Debug log
+        };
+
+        mediaRecorder.current.start(1000); // Record in 1-second chunks
+        console.log("Recording started");  // Debug log
         setIsRecording(true);
       } catch (err) {
         console.error("Error accessing microphone:", err);
-        alert("Error accessing microphone. Please ensure you have given permission.");
+        alert("Error accessing microphone. Please ensure you have given permission and are using a supported browser.");
       }
     } else {
-      mediaRecorder.current.stop();
+      if (mediaRecorder.current && mediaRecorder.current.state !== 'inactive') {
+        mediaRecorder.current.stop();
+        console.log("Recording stopping...");  // Debug log
+        
+        // Stop all tracks in the stream
+        mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
+      }
       setIsRecording(false);
     }
   };
 
   const handleDownload = async () => {
-    // Convert to WAV using Web Audio API
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const blob = new Blob(audioChunks.current, { type: 'audio/webm' });
-    const arrayBuffer = await blob.arrayBuffer();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    
-    // Create WAV file
-    const wavBuffer = audioBufferToWav(audioBuffer);
-    const wavBlob = new Blob([wavBuffer], { type: 'audio/wav' });
-    
-    // Create a File object from the Blob
-    const wavFile = new File([wavBlob], 'recording.wav', { type: 'audio/wav' });
-    
-    // Set the file for detection
-    setFile(wavFile);
-    props.setFileName('recording.wav');
-    setUploadSuccess(true);
-    
-    // Download the file
-    const audioUrl = URL.createObjectURL(wavBlob);
-    const link = document.createElement('a');
-    link.href = audioUrl;
-    link.download = 'recording.wav';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setShowPopup(false);
+    try {
+      console.log("Processing recording...");  // Debug log
+      
+      // Convert to WAV using Web Audio API
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const blob = new Blob(audioChunks.current, { type: 'audio/webm;codecs=opus' });
+      console.log("Blob created, size:", blob.size);  // Debug log
+      
+      const arrayBuffer = await blob.arrayBuffer();
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      
+      // Create WAV file
+      const wavBuffer = audioBufferToWav(audioBuffer);
+      const wavBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+      
+      // Create a File object from the Blob
+      const wavFile = new File([wavBlob], 'recording.wav', { type: 'audio/wav' });
+      console.log("WAV file created, size:", wavFile.size);  // Debug log
+      
+      // Set the file for detection
+      setFile(wavFile);
+      props.setFileName('recording.wav');
+      setUploadSuccess(true);
+      
+      // Download the file
+      const audioUrl = URL.createObjectURL(wavBlob);
+      const link = document.createElement('a');
+      link.href = audioUrl;
+      link.download = 'recording.wav';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(audioUrl);  // Clean up
+      setShowPopup(false);
+      
+      console.log("Download process completed");  // Debug log
+    } catch (error) {
+      console.error("Error in handleDownload:", error);
+      alert("Error processing the recording. Please try again.");
+    }
   };
 
   return (
@@ -431,9 +464,16 @@ function About(props) {
                   fontSize: "16px",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center"
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  border: "none",
+                  borderRadius: "50%",
+                  transition: "all 0.3s ease",
+                  position: "relative",
+                  zIndex: 2
                 }}
                 className="record-button"
+                title={isRecording ? "Stop Recording" : "Start Recording"}
               >
                 {isRecording ? 'STOP' : <img 
                   src={Micro} 
@@ -442,7 +482,8 @@ function About(props) {
                   style={{ 
                     width: "25px",
                     height: "25px",
-                    margin: "0"
+                    margin: "0",
+                    transition: "transform 0.3s ease"
                   }}
                 />}
               </button>
@@ -491,7 +532,7 @@ function About(props) {
                 )}
               </Button>
             )}
-            {props.reply != "" && !isProcessing2 && (
+            {props.reply !== "" && !isProcessing2 && (
               <Button
                 style={{ marginLeft: "3em" }}
                 className="response-button"
@@ -500,7 +541,7 @@ function About(props) {
                   speak(props.reply);
                 }}
               >
-                {reading % 2 == 0 ? "Read Aloud" : "Stop Reading"}
+                {reading % 2 === 0 ? "Read Aloud" : "Stop Reading"}
               </Button>
             )}
 
