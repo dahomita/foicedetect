@@ -99,7 +99,7 @@ Check out our [video demo](https://youtu.be/YJB9-aR2dEc) to see FoiceDetect in a
 
 FoiceDetect has been recognized in the following tracks in Nosu AI Hackathon:
 - Cybersecurity Track (WithSandra) - $325
-- This Project Is Awesome!
+- Super Awesome Cool Prize
 ---
 
 Built with ❤️ by the FoiceDetect Team
