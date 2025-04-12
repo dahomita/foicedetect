@@ -97,18 +97,9 @@ Check out our [video demo](https://youtu.be/YJB9-aR2dEc) to see FoiceDetect in a
 
 ## 🏆 Recognition
 
-FoiceDetect has been recognized in multiple tracks:
+FoiceDetect has been recognized in the following tracks in Nosu AI Hackathon:
 - Cybersecurity Track (WithSandra) - $325
-- Most Technically Impressive - Modal - $2,000 credits grand prize
-- Nethenoob spinning cat - $65 cash
-- Nebius Exploratory Use of LLMs and Vision Models:
-  - 1st Place: $2,000 credits
-  - 2nd Place: $1,000 credits
-  - 3rd Place: $500 credits
-- STATSIG GRAND PRIZE - $1,625 CASH
-- Magic loops - $325 CASH
-- Beginner tracks (20 winners) - $10 each in credits
-
+- This Project Is Awesome!
 ---
 
 Built with ❤️ by the FoiceDetect Team
