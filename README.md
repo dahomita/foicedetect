@@ -1,22 +1,21 @@
-# FoiceDetect: AI-Powered Voice Detection and Classification
+# FoiceDetect 🎙️
 
-## Project Overview
+AI-powered voice deepfake detection and classification platform to protect against scams
 
-We developed Fake Voice Detect, a platform leveraging Nebius AI to identify fake voices (deepfakes) and protect users from scams. As scammers increasingly use AI-generated voices to impersonate friends and request money, our platform evaluates how fake a voice is, provides Nebius AI-driven cybersecurity solutions, and even suggests humorous responses to outsmart scammers. Additionally, we securely store information for future use, including reports, evidence, and identification, empowering users to stay safe and take action against fraud.
+## 📋 Overview
 
-## Tracks: 
-- Cybersecurity Track (WithSandra) $325
-- Most Technically Impressive - Modal (Series A company) $2,000 credits grand prize
-- Nethenoob spinning cat ($65 cash)
-- Nebius Exploratory Use of LLMs and Vision Models:
-    - 1st Place: $2,000 credits
-    - 2nd Place: $1,000 credits
-    - 3rd Place: $500 credits
-- $1625 CASH (STATSIG GRAND PRIZE)
-- Magic loops $325 CASH
-- Beginner tracks (20 winners) ($10 each credits) 
+FoiceDetect is a cutting-edge platform that leverages Nebius AI to identify and classify AI-generated voices (deepfakes). As voice scams become increasingly sophisticated with scammers using AI to impersonate friends and family members, FoiceDetect provides robust protection through advanced detection algorithms and practical countermeasures.
 
-## 🚀 Technologies Stack
+### 🛡️ Key Features
+
+- **Deepfake Detection**: Analyzes audio to determine authenticity with high accuracy
+- **Risk Classification**: Evaluates potential threat levels of suspicious voice samples
+- **Real-time Analysis**: Processes audio inputs with minimal latency
+- **Smart Responses**: Suggests effective countermeasures, including humorous replies to confuse scammers
+- **Secure Storage**: Maintains evidence and reports for future reference and potential legal action
+- **User Empowerment**: Provides tools and knowledge to recognize and respond to voice-based threats
+
+## 🚀 Technologies
 
 ### Frontend
 - React.js
@@ -27,67 +26,89 @@ We developed Fake Voice Detect, a platform leveraging Nebius AI to identify fake
 ### Backend
 - Python
 - Django
-- Machine Learning Libraries
-  ### Backend Machine Learning Libraries
-  - NumPy
-  - Scikit-learn
-    - SVC (Support Vector Classification)
-    - train_test_split
-    - StandardScaler
-  - Librosa (Audio feature extraction)
-  - Joblib (Model serialization)
-- **AssemblyAI Integration**
+- RESTful API architecture
 
-### Key Features
-- Voice Detection
-- Voice Classification
-- Real-time Audio Analysis
-- Machine Learning Model Training
+### Machine Learning
+- NumPy
+- Scikit-learn (SVC, train_test_split, StandardScaler)
+- Librosa (Audio feature extraction)
+- Joblib (Model serialization)
 
-## 🛠 Installation and Setup
+### Integrations
+- **Nebius AI**: Powers core detection algorithms
+- **AssemblyAI**: Enhanced audio processing capabilities
+
+## 🛠️ Installation
 
 ### Prerequisites
 - Python 3.8+
 - Node.js 14+
-- pip
-- git
+- npm/yarn
+- Git
 
-### Repository Clone
-```bash
-git clone https://github.com/dahomita/foicedetect.git
-cd foicedetect
-```
+### Quick Start
 
-### API Key Setup
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/dahomita/foicedetect.git
+   cd foicedetect
+   ```
 
-#### Environment Configuration
+2. **Set up API keys**
+   Create a `.env` file in the project root with:
+   ```
+   NEBIUS_API_KEY=your_nebius_api_key
+   ASSEMBLY_API_KEY=your_assembly_api_key
+   ```
 
-1. Create a `.env` file in the project root directory
-2. Add the following API keys to the `.env` file:
+3. **Backend setup**
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   cd foicedetect_backend
+   pip install -r requirements.txt
+   pip install assemblyai
+   python manage.py makemigrations
+   python manage.py migrate
+   python manage.py runserver
+   ```
 
-```
-NEBIUS_API_KEY=eyJhbGciOiJIUzI1NiIsImtpZCI6IlV6SXJWd1h0dnprLVRvdzlLZWstc0M1akptWXBvX1VaVkxUZlpnMDRlOFUiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJnb29nbGUtb2F1dGgyfDExMTY5ODA4MDkyNDAxNzkyMjcxOSIsInNjb3BlIjoib3BlbmlkIG9mZmxpbmVfYWNjZXNzIiwiaXNzIjoiYXBpX2tleV9pc3N1ZXIiLCJhdWQiOlsiaHR0cHM6Ly9uZWJpdXMtaW5mZXJlbmNlLmV1LmF1dGgwLmNvbS9hcGkvdjIvIl0sImV4cCI6MTg5NDY1NTAyMCwidXVpZCI6Ijc2NGNlOTc1LWI4ZjUtNDNkNi1hMTI1LTgzNDQwY2Y5MWVmYSIsIm5hbWUiOiJVbm5hbWVkIGtleSIsImV4cGlyZXNfYXQiOiIyMDMwLTAxLTE0VDIxOjAzOjQwKzAwMDAifQ.UXQkWATEndFFSgnZss62eQ9c7S64AfGLy2qOLJtDKQ8
-ASSEMBLY_API_KEY=e98e3dcc13624e2c846c6de74a34809e
-```
+4. **Frontend setup**
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
 
-⚠️ **Security Warning:**
-- Please don't use our key too much
+5. **Access the application**
+   Open your browser and navigate to `http://localhost:3000`
 
-### Backend Setup And Run
-```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate
-cd foicedetect_backend
-pip install -r requirements.txt
-pip install assemblyai
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-```
+## 📊 Usage
 
-### Frontend Setup And Run
-```bash
-npm install
-npm start
-```
+1. Upload an audio file or record directly through the application
+2. Our AI will analyze the voice patterns and determine authenticity
+3. Review the detailed analysis report with confidence scores
+4. Use the suggested responses or countermeasures if the voice is classified as fake
+
+## 🧪 Demo
+
+Check out our [video demo](https://youtu.be/YJB9-aR2dEc) to see FoiceDetect in action.
+
+## 🏆 Recognition
+
+FoiceDetect has been recognized in multiple tracks:
+- Cybersecurity Track (WithSandra) - $325
+- Most Technically Impressive - Modal - $2,000 credits grand prize
+- Nethenoob spinning cat - $65 cash
+- Nebius Exploratory Use of LLMs and Vision Models:
+  - 1st Place: $2,000 credits
+  - 2nd Place: $1,000 credits
+  - 3rd Place: $500 credits
+- STATSIG GRAND PRIZE - $1,625 CASH
+- Magic loops - $325 CASH
+- Beginner tracks (20 winners) - $10 each in credits
+
+---
+
+Built with ❤️ by the FoiceDetect Team
